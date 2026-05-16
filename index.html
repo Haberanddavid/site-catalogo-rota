@@ -375,6 +375,10 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
   .shop-title{font-size:1rem}
   .pcard-price{font-size:1.25rem}
   .chk-title{font-size:1.15rem}
+  .logo-center img{height:3rem;max-width:120px}
+  .logo-center .shop-title{display:none}
+  .shop-hdr-inner{min-height:4.5rem}
+  .acnt-txt{display:none}
 }
 
 /* === CENTERED LOGO HEADER === */
@@ -457,7 +461,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
       <!-- Left: My Account -->
       <button onclick="goTo('myaccount')" style="background:linear-gradient(to right,#f0fdf4,#fefce8);border:2px solid #86efac;cursor:pointer;display:flex;align-items:center;gap:.4rem;color:#15803d;font-weight:700;font-size:.8rem;padding:.45rem .8rem;border-radius:.5rem;transition:all .15s;font-family:inherit;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.07)" title="Área do Cliente">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span>Área do Cliente</span>
+        <span class="acnt-txt">Área do Cliente</span>
       </button>
       <!-- Center: Logo -->
       <div class="logo-center" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Rota do Pet – Início">
@@ -681,12 +685,26 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
     <!-- Login box - appears when no phone stored -->
     <div id="mya-login-box" class="mya-login-box">
       <h2>Área do Cliente</h2>
-      <p>Veja seus <strong>pedidos anteriores</strong> e sua <strong>lista de favoritos</strong>.<br>Digite seu telefone para entrar.</p>
+      <p style="font-size:.85rem;color:#6b7280;margin-bottom:1rem">🛍️ Comprar sem login? <strong>Pode sim!</strong> Mas com cadastro você tem:</p>
+      <ul style="list-style:none;padding:0;margin:0 0 1.25rem;display:flex;flex-direction:column;gap:.5rem">
+        <li style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:#374151">📦 <span>Acesse seus <strong>pedidos anteriores</strong></span></li>
+        <li style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:#374151">🔁 <span><strong>Repita um pedido</strong> com um clique</span></li>
+        <li style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:#374151">❤️ <span>Veja sua <strong>lista de favoritos</strong></span></li>
+      </ul>
       <div class="fg">
         <label style="font-weight:600;font-size:.875rem;display:block;margin-bottom:.35rem">Seu Telefone</label>
-        <input type="tel" class="fi" id="mya-phone" placeholder="(16) 99098-3563" oninput="maskPhone(this)" onkeydown="if(event.key==='Enter')myaLogin()"/>
+        <input type="tel" class="fi" id="mya-phone" placeholder="(16) 99098-3563" oninput="maskPhone(this)" onblur="myaCheckPhone()" onkeydown="if(event.key==='Enter')myaLogin()"/>
       </div>
-      <button class="submit-btn" style="margin-top:.75rem" onclick="myaLogin()">Entrar</button>
+      <div id="mya-phone-status" style="display:none;margin-top:.6rem;padding:.5rem .75rem;border-radius:.5rem;font-size:.82rem;font-weight:600"></div>
+      <div class="fg" id="mya-name-wrap" style="margin-top:.75rem;display:none">
+        <label style="font-weight:600;font-size:.875rem;display:block;margin-bottom:.35rem">Seu Nome</label>
+        <input type="text" class="fi" id="mya-name" placeholder="Digite seu nome" onkeydown="if(event.key==='Enter')myaLogin()"/>
+      </div>
+      <div class="fg" id="mya-pass-wrap" style="margin-top:.75rem;display:none">
+        <label style="font-weight:600;font-size:.875rem;display:block;margin-bottom:.35rem">Sua Senha</label>
+        <input type="password" class="fi" id="mya-pass" placeholder="Mínimo 4 caracteres" onkeydown="if(event.key==='Enter')myaLogin()"/>
+      </div>
+      <button class="submit-btn" id="mya-login-btn" style="margin-top:.75rem" onclick="myaLogin()">Entrar</button>
     </div>
     <!-- Logged-in panel -->
     <div id="mya-panel" style="display:none">
@@ -2935,7 +2953,7 @@ function renderFooter(){
   if(hw&&hEl){hw.style.display=hours?'block':'none';hEl.textContent=hours;}
 
   const cp=document.getElementById('footer-copy');
-  if(cp) cp.textContent=`© ${new Date().getFullYear()} ${name} — Todos os direitos reservados`;
+  if(cp) cp.innerHTML=`© ${new Date().getFullYear()} ${name} — Todos os direitos reservados<br><span style="color:#9ca3af;font-size:.7rem">Desenvolvido por Yago H David</span>`;
 }
 
 /* Config */
@@ -3261,19 +3279,53 @@ function removeFeatProd(id){HIGHLIGHTS.featProds=(HIGHLIGHTS.featProds||[]).filt
 
 /* ─── CUSTOMER PANEL ─── */
 let myaPhoneKey=null;
+function myaCheckPhone(){
+  const ph=document.getElementById('mya-phone').value.replace(/\D/g,'');
+  if(ph.length<10){toast('Digite um telefone válido','err');return;}
+  const accounts=ls('rdp2_accounts',{});
+  const statusEl=document.getElementById('mya-phone-status');
+  const nameWrap=document.getElementById('mya-name-wrap');
+  const passWrap=document.getElementById('mya-pass-wrap');
+  const loginBtn=document.getElementById('mya-login-btn');
+  if(accounts[ph]){
+    statusEl.style.cssText='display:block;margin-top:.6rem;padding:.5rem .75rem;border-radius:.5rem;font-size:.82rem;font-weight:600;background:#f0fdf4;border:1px solid #86efac;color:#15803d';
+    statusEl.textContent=`Bem-vindo(a) de volta, ${accounts[ph].name.split(' ')[0]}!`;
+    nameWrap.style.display='none';
+    setTimeout(()=>document.getElementById('mya-pass').focus(),50);
+  } else {
+    statusEl.style.cssText='display:block;margin-top:.6rem;padding:.5rem .75rem;border-radius:.5rem;font-size:.82rem;font-weight:600;background:#fefce8;border:1px solid #fde047;color:#92400e';
+    statusEl.textContent='Primeiro acesso — você está criando sua conta.';
+    nameWrap.style.display='block';
+    setTimeout(()=>document.getElementById('mya-name').focus(),50);
+  }
+  passWrap.style.display='block';
+  loginBtn.style.display='block';
+}
 function myaLogin(){
   const ph=document.getElementById('mya-phone').value.replace(/\D/g,'');
   if(ph.length<10){toast('Digite um telefone válido','err');return;}
+  const passWrap=document.getElementById('mya-pass-wrap');
+  if(passWrap.style.display==='none'||passWrap.style.display===''){myaCheckPhone();return;}
+  const pw=document.getElementById('mya-pass').value;
+  if(!pw||pw.length<4){toast('A senha deve ter pelo menos 4 caracteres','err');return;}
+  const accounts=ls('rdp2_accounts',{});
+  let displayName;
+  if(accounts[ph]){
+    if(accounts[ph].password!==pw){toast('Senha incorreta','err');return;}
+    displayName=accounts[ph].name;
+  } else {
+    const nm=document.getElementById('mya-name').value.trim();
+    if(!nm){toast('Digite seu nome','err');return;}
+    accounts[ph]={name:nm,password:pw};
+    sv('rdp2_accounts',accounts);
+    displayName=nm;
+  }
   myaPhoneKey=ph;
-  // Always reload orders fresh from storage
   ORDERS=ls(K.orders,[]);
   document.getElementById('mya-login-box').style.display='none';
   document.getElementById('mya-panel').style.display='block';
   document.getElementById('mya-phone-lbl').textContent='📞 '+document.getElementById('mya-phone').value;
-  const orders=getMyOrders(ph);
-  document.getElementById('mya-greeting').textContent=orders.length
-    ?`Olá, ${orders[orders.length-1].name.split(' ')[0]}! Você tem ${orders.length} pedido(s).`
-    :'Olá! Nenhum pedido encontrado para este número.';
+  document.getElementById('mya-greeting').textContent=`Olá, ${displayName.split(' ')[0]}! Bem-vindo(a).`;
   swMyaTab('orders');
 }
 function myaLogout(){
@@ -3281,6 +3333,11 @@ function myaLogout(){
   document.getElementById('mya-login-box').style.display='block';
   document.getElementById('mya-panel').style.display='none';
   document.getElementById('mya-phone').value='';
+  document.getElementById('mya-name').value='';
+  document.getElementById('mya-pass').value='';
+  document.getElementById('mya-phone-status').style.display='none';
+  document.getElementById('mya-name-wrap').style.display='none';
+  document.getElementById('mya-pass-wrap').style.display='none';
 }
 function getMyOrders(phone){
   // Always pull fresh from storage
@@ -3326,8 +3383,35 @@ function renderMyOrders(){
       </div>
       ${o.address?`<div style="font-size:.78rem;color:#6b7280;margin-top:.2rem">📍 ${esc(o.address)}</div>`:''}
       ${o.notes?`<div style="font-size:.78rem;color:#f59e0b;background:#fffbeb;padding:.3rem .5rem;border-radius:.35rem;margin-top:.3rem">📝 ${esc(o.notes)}</div>`:''}
+      <button onclick="event.stopPropagation();repeatOrder(${o.id})" style="margin-top:.6rem;background:linear-gradient(to right,#22c55e,#eab308);color:#fff;border:none;border-radius:.375rem;padding:.35rem .9rem;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit">🔁 Repetir Pedido</button>
     </div>`).join('');
   el.innerHTML=countBadge+rows;
+}
+function repeatOrder(orderId){
+  const order=ls(K.orders,[]).find(o=>o.id===orderId);
+  if(!order){toast('Pedido não encontrado','err');return;}
+  const parts=(order.items||'').split(', ');
+  let added=0,missing=[];
+  parts.forEach(part=>{
+    const m=part.match(/^(.+) x(\d+)$/);
+    if(!m)return;
+    const name=m[1],qty=parseInt(m[2]);
+    const prod=PRODS.find(p=>p.name===name&&p.isActive!==false);
+    if(!prod){missing.push(name);return;}
+    if(prod.stock<=0){missing.push(name+' (esgotado)');return;}
+    const inCart=cart.find(c=>c.id===prod.id);
+    const currentQty=inCart?inCart.qty:0;
+    const toAdd=Math.min(qty,prod.stock-currentQty);
+    if(toAdd<=0){missing.push(name+' (sem estoque suficiente)');return;}
+    if(inCart)inCart.qty+=toAdd;
+    else cart.push({id:prod.id,qty:toAdd});
+    added++;
+  });
+  sv(K.cart,cart);
+  updateBadge();
+  if(added>0&&!missing.length)toast('Pedido adicionado ao carrinho! 🛒');
+  else if(added>0)toast(`${added} item(s) adicionado(s). Indisponível: ${missing.join(', ')}`,'warn');
+  else toast('Nenhum item disponível para repetir','err');
 }
 function renderMyFavs(){
   const el=document.getElementById('mya-fav-grid');
@@ -3374,7 +3458,15 @@ function renderCustomers(){
   const el=document.getElementById('customers-list');
   const srch=(document.getElementById('cust-search')?.value||'').toLowerCase();
   const sort=document.getElementById('cust-sort')?.value||'orders';
+  const accounts=ls('rdp2_accounts',{});
   let custs=buildCustomers();
+  // Enriquecer com dados de conta cadastrada
+  custs.forEach(c=>{const ph=c.phone.replace(/\D/g,'');if(accounts[ph])c._acc=accounts[ph];});
+  // Incluir contas cadastradas sem pedidos ainda
+  Object.entries(accounts).forEach(([ph,acc])=>{
+    if(!custs.find(c=>c.phone.replace(/\D/g,'')===ph))
+      custs.push({phone:ph,name:acc.name||'',email:'',addresses:[],orders:[],items:{},totalSpent:0,_acc:acc});
+  });
   if(srch)custs=custs.filter(c=>c.name.toLowerCase().includes(srch)||c.phone.includes(srch));
   if(sort==='orders')custs.sort((a,b)=>b.orders.length-a.orders.length);
   else if(sort==='total')custs.sort((a,b)=>b.totalSpent-a.totalSpent);
@@ -3382,12 +3474,25 @@ function renderCustomers(){
   else if(sort==='recent')custs.sort((a,b)=>(b.orders[b.orders.length-1]?.id||0)-(a.orders[a.orders.length-1]?.id||0));
   if(!custs.length){el.innerHTML='<div class="empty-adm"><span>👥</span>Nenhum cliente encontrado</div>';return;}
   el.innerHTML=custs.map((c,i)=>{
+    const acc=c._acc;
+    const phoneRaw=c.phone.replace(/\D/g,'');
     const topItems=Object.entries(c.items).sort((a,b)=>b[1]-a[1]).slice(0,5);
     const addrs=c.addresses.filter(Boolean);
+    const accBadge=acc?`<span style="background:#dbeafe;color:#1e40af;font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:9999px;margin-left:.4rem">🔑 Conta</span>`:'';
+    const accInfo=acc?`<div id="accinfo-${phoneRaw}" style="margin-bottom:.6rem;background:#f0f9ff;border:1px solid #bae6fd;border-radius:.4rem;padding:.5rem .75rem">
+      <div style="font-weight:700;font-size:.78rem;color:#0369a1;margin-bottom:.35rem">🔑 Credenciais de Acesso</div>
+      <div style="font-size:.8rem;color:#374151;margin-bottom:.15rem">👤 Nome: <strong>${esc(acc.name)}</strong></div>
+      <div style="font-size:.8rem;color:#374151;margin-bottom:.15rem">📞 Telefone: <strong>${esc(c.phone)}</strong></div>
+      <div style="font-size:.8rem;color:#374151;margin-bottom:.4rem">🔒 Senha: <strong>${esc(acc.password)}</strong></div>
+      <div style="display:flex;gap:.4rem">
+        <button onclick="editCustomerAccount('${phoneRaw}',event)" style="background:#dbeafe;color:#1e40af;border:none;border-radius:.3rem;padding:.25rem .65rem;font-weight:600;font-size:.75rem;cursor:pointer">✏️ Editar</button>
+        <button onclick="deleteCustomerAccount('${phoneRaw}',event)" style="background:#fee2e2;color:#ef4444;border:none;border-radius:.3rem;padding:.25rem .65rem;font-weight:600;font-size:.75rem;cursor:pointer">🗑 Excluir</button>
+      </div>
+    </div>`:'';
     return`<div class="cust-row" onclick="toggleCustDetail('cd-${i}')">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:.5rem">
         <div>
-          <div class="cust-name">${esc(c.name)||'(sem nome)'}</div>
+          <div class="cust-name">${esc(c.name)||'(sem nome)'}${accBadge}</div>
           <div class="cust-contact">📞 ${esc(c.phone)||'—'}${c.email?' • ✉️ '+esc(c.email):''}</div>
           ${addrs.length?`<div class="cust-contact" style="margin-top:.15rem">📍 ${esc(addrs[addrs.length-1])}</div>`:''}
         </div>
@@ -3397,6 +3502,7 @@ function renderCustomers(){
         </div>
       </div>
       <div class="cust-detail" id="cd-${i}">
+        ${accInfo}
         <div style="font-weight:700;font-size:.82rem;margin-bottom:.5rem;color:#374151">Itens mais comprados:</div>
         ${topItems.length?topItems.map(([nm,qty])=>`<div class="cust-item-row"><span>${esc(nm)}</span><span style="font-weight:700;color:#16a34a">${qty}x</span></div>`).join(''):'<div style="font-size:.8rem;color:#9ca3af">Sem dados de itens</div>'}
         ${addrs.length>1?`<div style="margin-top:.6rem;font-weight:700;font-size:.82rem;color:#374151">Endereços usados:</div>${addrs.map(a=>`<div style="font-size:.78rem;color:#6b7280;padding:.2rem 0">📍 ${esc(a)}</div>`).join('')}`:''}
@@ -3407,6 +3513,50 @@ function renderCustomers(){
 function toggleCustDetail(id){
   const el=document.getElementById(id);
   if(el)el.classList.toggle('open');
+}
+function deleteCustomerAccount(ph,e){
+  e.stopPropagation();
+  if(!confirm('Excluir a conta deste cliente?')) return;
+  const accounts=ls('rdp2_accounts',{});
+  delete accounts[ph];
+  sv('rdp2_accounts',accounts);
+  renderCustomers();
+  toast('Conta excluída','warn');
+}
+function editCustomerAccount(ph,e){
+  e.stopPropagation();
+  const accounts=ls('rdp2_accounts',{});
+  const acc=accounts[ph];
+  if(!acc) return;
+  const box=document.getElementById('accinfo-'+ph);
+  if(!box) return;
+  box.innerHTML=`
+    <div style="font-weight:700;font-size:.78rem;color:#0369a1;margin-bottom:.5rem">✏️ Editar Conta</div>
+    <div style="margin-bottom:.4rem">
+      <label style="font-size:.75rem;font-weight:600;color:#374151;display:block;margin-bottom:.15rem">Nome</label>
+      <input id="edit-acc-name-${ph}" type="text" value="${esc(acc.name)}" style="width:100%;box-sizing:border-box;border:1px solid #bae6fd;border-radius:.3rem;padding:.35rem .5rem;font-size:.82rem"/>
+    </div>
+    <div style="margin-bottom:.4rem">
+      <label style="font-size:.75rem;font-weight:600;color:#374151;display:block;margin-bottom:.15rem">Senha</label>
+      <input id="edit-acc-pass-${ph}" type="text" value="${esc(acc.password)}" style="width:100%;box-sizing:border-box;border:1px solid #bae6fd;border-radius:.3rem;padding:.35rem .5rem;font-size:.82rem"/>
+    </div>
+    <div style="display:flex;gap:.4rem;margin-top:.25rem">
+      <button onclick="saveCustomerAccount('${ph}',event)" style="background:#16a34a;color:#fff;border:none;border-radius:.3rem;padding:.3rem .8rem;font-weight:700;font-size:.78rem;cursor:pointer">Salvar</button>
+      <button onclick="event.stopPropagation();renderCustomers()" style="background:#e5e7eb;color:#374151;border:none;border-radius:.3rem;padding:.3rem .8rem;font-weight:600;font-size:.78rem;cursor:pointer">Cancelar</button>
+    </div>`;
+}
+function saveCustomerAccount(ph,e){
+  e.stopPropagation();
+  const nm=(document.getElementById('edit-acc-name-'+ph)?.value||'').trim();
+  const pw=(document.getElementById('edit-acc-pass-'+ph)?.value||'').trim();
+  if(!nm){toast('Nome não pode estar vazio','err');return;}
+  if(!pw||pw.length<4){toast('Senha deve ter pelo menos 4 caracteres','err');return;}
+  const accounts=ls('rdp2_accounts',{});
+  if(!accounts[ph]) return;
+  accounts[ph]={name:nm,password:pw};
+  sv('rdp2_accounts',accounts);
+  renderCustomers();
+  toast('Conta atualizada!');
 }
 
 function cartQty(id, delta){
