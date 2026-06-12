@@ -7,6 +7,11 @@
 <meta name="description" content="Rota do Pet: pet shop online com entrega rápida. Ração, petiscos, acessórios e produtos de higiene para cães e gatos. Pague com PIX, cartão ou dinheiro. Peça pelo WhatsApp!"/>
 <link rel="icon" type="image/png" href="favicon.png"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#FACC15"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="Rota do Pet"/>
 <link rel="canonical" href="https://rotadopet.vercel.app/"/>
 <!-- Open Graph (preview no WhatsApp, Facebook, Instagram) -->
 <meta property="og:type" content="website"/>
@@ -4168,6 +4173,14 @@ window.addEventListener('scroll',()=>{
 initFromSupa().then(()=>{FIRST_SYNC=false;loadAll();handleHash();}).catch(()=>{
   if(FIRST_SYNC){FIRST_SYNC=false;loadAll();handleHash();}
 });
+</script>
+<script>
+/* Registra o Service Worker (PWA) — só em produção (https/origem real) */
+if('serviceWorker' in navigator && location.protocol==='https:'){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js').catch(e=>console.warn('SW falhou:',e));
+  });
+}
 </script>
 </body>
 </html>
