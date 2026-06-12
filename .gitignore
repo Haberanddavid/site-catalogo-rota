@@ -1,1 +1,6 @@
 Supabase/
+
+.vercel
+index_backup_*.html
+index_dev*.html
+teste/
