@@ -60,7 +60,12 @@ module.exports = async function handler(req, res) {
       },
     });
     clearTimeout(timer);
-    if (!resp.ok) return res.status(502).json({ ok: false, error: `O site respondeu ${resp.status}.` });
+    if (!resp.ok) {
+      const motivo = (resp.status === 403 || resp.status === 401)
+        ? 'esse site bloqueia leitura automática'
+        : `o site respondeu ${resp.status}`;
+      return res.status(200).json({ ok: false, error: `Não deu para importar (${motivo}). Preencha manualmente abaixo.` });
+    }
 
     const html = (await resp.text()).slice(0, 600000); // limita p/ não estourar memória
 
