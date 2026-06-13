@@ -1107,6 +1107,14 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
         <div class="agrid2">
           <div class="acard">
             <h2 id="pf-title" style="color:#ea580c">Adicionar Produto</h2>
+            <div class="af" style="background:#fffbeb;border:1px dashed var(--yellow-dark);border-radius:.5rem;padding:.7rem .75rem">
+              <label style="display:flex;align-items:center;gap:.35rem">📋 Importar de um link <span style="color:#9ca3af;font-weight:400;font-size:.74rem">— cola o link do produto e preenche sozinho</span></label>
+              <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.3rem">
+                <input type="url" class="ai" id="pf-import-url" placeholder="https://loja.com/produto..." style="flex:2;min-width:160px" onkeydown="if(event.key==='Enter'){importFromLink();event.preventDefault()}"/>
+                <button type="button" class="abtn" id="pf-import-btn" style="flex:1;min-width:110px;background:var(--yellow-dark);color:#fff" onclick="importFromLink()">Importar</button>
+              </div>
+              <div id="pf-import-msg" style="display:none;margin-top:.45rem;font-size:.8rem;font-weight:600;padding:.4rem .55rem;border-radius:.4rem"></div>
+            </div>
             <div class="af"><label>Nome <span class="req">*</span></label><input type="text" class="ai" id="pf-name" placeholder="Ex: Premier 2,5kg"/></div>
             <div class="af"><label>Descrição</label><textarea class="ai" id="pf-desc" placeholder="Descrição"></textarea></div>
             <div class="af"><label>Categoria <span class="req">*</span></label><select class="ai" id="pf-cat"></select></div>
@@ -1713,6 +1721,41 @@ function addProdImg(){
   if(_prodImgs.length>=8){toast('Máximo de 8 imagens','warn');return;}
   _prodImgs.push(url);inp.value='';
   renderImgsList();toast('Imagem adicionada!');
+}
+// Mostra a mensagem de status da importação (info/ok/err)
+function importMsg(text,kind){
+  const el=document.getElementById('pf-import-msg');if(!el)return;
+  const styles={info:['#eff6ff','#1d4ed8'],ok:['#f0fdf4','#15803d'],err:['#fef2f2','#b91c1c']};
+  const [bg,fg]=styles[kind]||styles.info;
+  el.style.display='block';el.style.background=bg;el.style.color=fg;el.textContent=text;
+}
+// Importa nome/descrição/imagem a partir de um link, via /api/import-product
+async function importFromLink(){
+  const inp=document.getElementById('pf-import-url');
+  const btn=document.getElementById('pf-import-btn');
+  const url=(inp.value||'').trim();
+  if(!/^https?:\/\//i.test(url)){importMsg('Cole um link válido (começando com http).','err');return;}
+  btn.disabled=true;btn.textContent='Buscando...';
+  importMsg('🔄 Lendo a página do produto...','info');
+  try{
+    const r=await fetch('/api/import-product?url='+encodeURIComponent(url));
+    const d=await r.json();
+    if(!d.ok){importMsg('⚠️ '+(d.error||'Não consegui ler esse link.')+' Você pode preencher manualmente abaixo.','err');return;}
+    let preencheu=[];
+    if(d.title){document.getElementById('pf-name').value=d.title;preencheu.push('nome');}
+    if(d.description){document.getElementById('pf-desc').value=d.description;preencheu.push('descrição');}
+    if(d.image){
+      if(_prodImgs.length<8 && !_prodImgs.includes(d.image)){_prodImgs.push(d.image);renderImgsList();preencheu.push('imagem');}
+    }
+    if(!preencheu.length){importMsg('⚠️ Esse link não trouxe dados aproveitáveis. Preencha manualmente.','err');return;}
+    const precoTxt=(d.price!=null&&d.price>0)?` 💡 Preço no site: R$ ${Number(d.price).toFixed(2).replace('.',',')} (confira e digite o seu).`:'';
+    importMsg('✅ Importado: '+preencheu.join(', ')+'. Revise os campos e defina o preço.'+precoTxt,'ok');
+    inp.value='';
+  }catch(e){
+    importMsg('⚠️ Não consegui acessar o serviço de importação. Tente de novo ou preencha manual.','err');
+  }finally{
+    btn.disabled=false;btn.textContent='Importar';
+  }
 }
 function removeImg(i){_prodImgs.splice(i,1);renderImgsList();}
 function moveImg(i,dir){
@@ -2820,6 +2863,8 @@ function cancelProd(){
   document.getElementById('pf-id').value='';document.getElementById('pf-active').checked=true;
   document.getElementById('pf-title').textContent='Adicionar Produto';
   document.getElementById('pf-cancel').style.display='none';
+  const iu=document.getElementById('pf-import-url');if(iu)iu.value='';
+  const im=document.getElementById('pf-import-msg');if(im)im.style.display='none';
   _prodImgs=[];renderImgsList();
 }
 function delProd(id){
