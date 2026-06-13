@@ -1,6 +1,8 @@
 Supabase/
 
 .vercel
+.claude/
 index_backup_*.html
 index_dev*.html
+index_test.html
 teste/

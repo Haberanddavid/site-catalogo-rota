@@ -24,7 +24,7 @@
 <meta property="og:locale" content="pt_BR"/>
 <meta property="og:site_name" content="Rota do Pet"/>
 <meta name="twitter:card" content="summary_large_image"/>
-<!-- Dados estruturados (Google) -->
+<!-- Dados estruturados (Google) — preencha "telephone" e "address" se quiser aparecer em buscas locais -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -85,7 +85,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--ink-deep);min
 /* ============================================================
    SHOP PAGE — faithful to original React
    ============================================================ */
-#shop-page{min-height:100vh;background:#f5f5f5}
+#shop-page{min-height:100vh;background:var(--bg)}
 
 /* Header */
 .shop-hdr{position:sticky;top:0;z-index:50;background:var(--surface);box-shadow:var(--sh-sm);border-bottom:3px solid var(--yellow)}
@@ -102,7 +102,7 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--ink-deep);min
 .cart-btn:hover{transform:scale(1.05);filter:brightness(1.05)}
 .cart-btn svg{width:1.25rem;height:1.25rem}
 .hdr-search-row{max-width:80rem;margin:0 auto;padding:0 1.2rem .7rem}
-.cart-count{background:#ef4444;color:#fff;font-size:.75rem;font-weight:700;min-width:1.4rem;height:1.4rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;padding:0 .2rem;transition:transform .2s}
+.cart-count{background:var(--danger);color:#fff;font-size:.75rem;font-weight:700;min-width:1.4rem;height:1.4rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;padding:0 .2rem;transition:transform .2s}
 .cart-count.pop{animation:pop .25s cubic-bezier(.34,1.56,.64,1)}
 @keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
 
@@ -193,10 +193,10 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--ink-deep);min
 /* ============================================================
    CHECKOUT PAGE
    ============================================================ */
-#checkout-page{min-height:100vh;background:#f5f5f5}
+#checkout-page{min-height:100vh;background:var(--bg)}
 .chk-hdr{position:sticky;top:0;z-index:50;background:var(--surface);box-shadow:var(--sh-sm);border-bottom:3px solid var(--yellow)}
 .chk-hdr-inner{max-width:72rem;margin:0 auto;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between}
-.back-btn{display:flex;align-items:center;gap:.5rem;color:#16a34a;font-weight:600;background:none;border:none;cursor:pointer;font-family:inherit;font-size:.95rem;transition:color .15s}
+.back-btn{display:flex;align-items:center;gap:.5rem;color:var(--green);font-weight:600;background:none;border:none;cursor:pointer;font-family:inherit;font-size:.95rem;transition:color .15s}
 .back-btn:hover{color:#15803d}
 .back-btn svg{width:1.25rem;height:1.25rem}
 .chk-title{font-size:1.4rem;font-weight:700;color:var(--ink);font-family:var(--font-display)}
@@ -208,19 +208,19 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--ink-deep);min
 .fcard-title{font-size:1.15rem;font-weight:700;margin-bottom:1rem;font-family:var(--font-display)}
 #checkout-page .fc-y,#checkout-page .fc-o,#checkout-page .fc-p,#checkout-page .fc-g{border:1px solid var(--border)}
 #checkout-page .fcard-title.t-green,#checkout-page .fcard-title.t-orange,#checkout-page .fcard-title.t-purple,#checkout-page .fcard-title.t-yellow{color:var(--ink)}
-.t-green{color:#16a34a}
+.t-green{color:var(--green)}
 .t-orange{color:#ea580c}
 .t-purple{color:#9333ea}
-.t-yellow{color:#ca8a04}
+.t-yellow{color:var(--yellow-dark)}
 .fg{margin-bottom:1rem}
 .fg label{display:block;font-weight:600;color:var(--ink-soft);margin-bottom:.35rem;font-size:.9rem}
 .fi{width:100%;padding:.55rem .8rem;border:1px solid var(--border-strong);border-radius:var(--r-sm);font-family:inherit;font-size:.95rem;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff}
 .fi:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
-.fi.e{border-color:#ef4444}
-.fi.v{border-color:#22c55e}
+.fi.e{border-color:var(--danger)}
+.fi.v{border-color:var(--green-bright)}
 .fmsg{font-size:.78rem;margin-top:.25rem}
 .fmsg.err{color:#dc2626}
-.fmsg.ok{color:#16a34a}
+.fmsg.ok{color:var(--green)}
 textarea.fi{resize:vertical;min-height:5rem}
 /* radio */
 .radio-opt{display:flex;align-items:flex-start;gap:.75rem;padding:.8rem;border:1px solid var(--border-strong);border-radius:var(--r-sm);cursor:pointer;margin-bottom:.75rem;transition:background .15s,border-color .15s}
@@ -251,21 +251,21 @@ textarea.fi{resize:vertical;min-height:5rem}
 .oi-price-row{display:flex;align-items:center;gap:.15rem;margin-top:.15rem}
 .oi-n{font-weight:600;color:#1f2937;font-size:.85rem}
 .oi-q{color:#6b7280;font-size:.78rem;margin-top:.1rem}
-.oi-p{font-weight:600;color:#16a34a}
+.oi-p{font-weight:600;color:var(--green)}
 .oi-p.cross{text-decoration:line-through;color:#9ca3af;font-weight:400;font-size:.78rem;margin-right:.3rem}
 .oi-ctrl{display:flex;align-items:center;gap:.3rem;flex-shrink:0}
 .oi-btn{background:#f3f4f6;border:1px solid #e5e7eb;border-radius:.35rem;width:1.6rem;height:1.6rem;cursor:pointer;font-size:.9rem;font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .15s;color:#374151;font-family:inherit}
 .oi-btn:hover{background:#e5e7eb}
-.oi-btn.del{background:#fee2e2;border-color:#fecaca;color:#ef4444}
-.oi-btn.del:hover{background:#ef4444;color:#fff}
+.oi-btn.del{background:#fee2e2;border-color:#fecaca;color:var(--danger)}
+.oi-btn.del:hover{background:var(--danger);color:#fff}
 .oi-qty{min-width:1.4rem;text-align:center;font-weight:700;font-size:.88rem;color:#111}
 .totals{border-top:2px solid var(--border);padding-top:1rem}
 .trow{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.9rem}
 .trow.grand{font-size:1.3rem;font-weight:700;color:var(--green);font-family:var(--font-display)}
-.t-free{color:#16a34a;font-weight:600}
+.t-free{color:var(--green);font-weight:600}
 .t-disc{color:#9333ea;font-weight:600}
 .t-ship-val{color:#ea580c;font-weight:600}
-.t-pending{color:#ef4444;font-weight:600}
+.t-pending{color:var(--danger);font-weight:600}
 .empty-cart{text-align:center;padding:1.5rem;color:#9ca3af;font-size:.9rem}
 .empty-cart span{font-size:2rem;display:block;margin-bottom:.35rem}
 .submit-btn{width:100%;padding:.9rem 1rem;background:var(--green);color:#fff;border:none;border-radius:var(--r-sm);font-weight:800;font-size:1.1rem;cursor:pointer;font-family:inherit;transition:filter .2s,transform .2s;margin-top:1rem;box-shadow:var(--sh-sm)}
@@ -277,8 +277,8 @@ textarea.fi{resize:vertical;min-height:5rem}
    ============================================================ */
 #toasts{position:fixed;top:5rem;right:1rem;z-index:9999;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
 .tst{background:#fff;border-radius:.5rem;padding:.6rem 1rem;box-shadow:0 10px 25px rgba(0,0,0,.15);font-size:.875rem;font-weight:500;max-width:18rem;display:flex;align-items:center;gap:.5rem;pointer-events:all;animation:tstIn .3s cubic-bezier(.34,1.56,.64,1)}
-.tst.ok{border-left:4px solid #22c55e}
-.tst.err{border-left:4px solid #ef4444}
+.tst.ok{border-left:4px solid var(--green-bright)}
+.tst.err{border-left:4px solid var(--danger)}
 .tst.warn{border-left:4px solid #f59e0b}
 @keyframes tstIn{from{opacity:0;transform:translateX(3rem)}to{opacity:1;transform:none}}
 @keyframes tstOut{from{opacity:1}to{opacity:0;transform:translateX(3rem)}}
@@ -289,9 +289,9 @@ textarea.fi{resize:vertical;min-height:5rem}
 #admin-page{min-height:100vh;background:#f9fafb}
 
 /* Admin login */
-.adm-login{min-height:100vh;background:#f5f5f5;display:flex;align-items:center;justify-content:center;padding:1rem}
-.adm-lcard{background:#fff;border-radius:1rem;padding:2rem 1.75rem;width:100%;max-width:28rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);border:4px solid #fde047;animation:fadeIn .35s ease}
-.adm-lcard h1{font-size:1.875rem;font-weight:700;text-align:center;color:#16a34a;margin-bottom:.25rem}
+.adm-login{min-height:100vh;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:1rem}
+.adm-lcard{background:#fff;border-radius:1rem;padding:2rem 1.75rem;width:100%;max-width:28rem;box-shadow:0 25px 50px -12px rgba(0,0,0,.25);border:4px solid var(--yellow);animation:fadeIn .35s ease}
+.adm-lcard h1{font-size:1.875rem;font-weight:700;text-align:center;color:var(--green);margin-bottom:.25rem}
 .adm-lcard p{text-align:center;color:#6b7280;margin-bottom:2rem}
 /* Admin header */
 .adm-hdr{position:sticky;top:0;z-index:100;background:#111827;box-shadow:0 4px 6px rgba(0,0,0,.3)}
@@ -316,24 +316,24 @@ textarea.fi{resize:vertical;min-height:5rem}
 .stat{background:#fff;border-radius:.75rem;border:1px solid #e5e7eb;padding:1rem;box-shadow:0 1px 3px rgba(0,0,0,.07)}
 .stat-val{font-size:2rem;font-weight:800;line-height:1;font-family:'Inter',sans-serif}
 .stat-lbl{font-size:.78rem;color:#9ca3af;margin-top:.25rem}
-.sv-g{color:#16a34a}.sv-o{color:#ea580c}.sv-r{color:#ef4444}.sv-p{color:#9333ea}.sv-b{color:#2563eb}
+.sv-g{color:var(--green)}.sv-o{color:#ea580c}.sv-r{color:var(--danger)}.sv-p{color:#9333ea}.sv-b{color:#2563eb}
 /* Admin forms */
 .af{margin-bottom:.85rem}
 .af label{display:block;font-weight:600;font-size:.82rem;margin-bottom:.3rem;color:#374151}
 .ai{width:100%;padding:.6rem .8rem;border:2px solid #e5e7eb;border-radius:.5rem;font-family:inherit;font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s;background:#fff}
-.ai:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.12)}
+.ai:focus{border-color:var(--green-bright);box-shadow:0 0 0 3px rgba(34,197,94,.12)}
 select.ai{cursor:pointer}
 textarea.ai{resize:vertical;min-height:4.5rem}
 .arow2{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 /* Admin buttons */
-.abtn{padding:.6rem 1rem;background:#22c55e;color:#fff;border:none;border-radius:.5rem;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;transition:filter .15s,transform .15s;display:inline-flex;align-items:center;gap:.4rem}
+.abtn{padding:.6rem 1rem;background:var(--green-bright);color:#fff;border:none;border-radius:.5rem;font-family:inherit;font-weight:700;font-size:.9rem;cursor:pointer;transition:filter .15s,transform .15s;display:inline-flex;align-items:center;gap:.4rem}
 .abtn:hover{filter:brightness(1.08);transform:translateY(-1px)}
 .abtn.full{width:100%;justify-content:center;margin-top:.25rem}
-.abtn.red{background:#ef4444}
+.abtn.red{background:var(--danger)}
 .abtn.pur{background:#7c3aed}
 .abtn.grey{background:#6b7280;color:#fff}
 .abtn.sm{padding:.4rem .75rem;font-size:.8rem}
-.abtn.out{background:#fff;border:2px solid #22c55e;color:#16a34a}
+.abtn.out{background:#fff;border:2px solid var(--green-bright);color:var(--green)}
 .abtn.out:hover{background:#f0fdf4}
 /* Admin list */
 .alist{display:flex;flex-direction:column;gap:.6rem;max-height:32rem;overflow-y:auto}
@@ -346,12 +346,12 @@ textarea.ai{resize:vertical;min-height:4.5rem}
 .ali-meta{font-size:.75rem;color:#9ca3af;margin-top:.1rem}
 .ali-price{font-weight:700;color:#ea580c;font-size:.88rem}
 .ali-stock{font-size:.75rem;font-weight:600}
-.sk-g{color:#16a34a}.sk-o{color:#f97316}.sk-r{color:#ef4444}
+.sk-g{color:var(--green)}.sk-o{color:#f97316}.sk-r{color:var(--danger)}
 .ali-acts{display:flex;gap:.3rem;flex-shrink:0}
 .ibtn{width:2rem;height:2rem;border-radius:.4rem;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:background .15s}
-.ebtn{background:#fef9c3;color:#92400e}.ebtn:hover{background:#eab308;color:#fff}
-.dbtn{background:#fee2e2;color:#991b1b}.dbtn:hover{background:#ef4444;color:#fff}
-.tbtn{background:#f0fdf4;color:#15803d}.tbtn:hover{background:#22c55e;color:#fff}
+.ebtn{background:var(--yellow-soft);color:#92400e}.ebtn:hover{background:#eab308;color:#fff}
+.dbtn{background:#fee2e2;color:#991b1b}.dbtn:hover{background:var(--danger);color:#fff}
+.tbtn{background:#f0fdf4;color:#15803d}.tbtn:hover{background:var(--green-bright);color:#fff}
 /* Bulk table */
 .tbl-wrap{overflow-x:auto;border-radius:.5rem;border:1px solid #e5e7eb}
 .bulk-tbl{width:100%;border-collapse:collapse;font-size:.82rem}
@@ -359,35 +359,35 @@ textarea.ai{resize:vertical;min-height:4.5rem}
 .bulk-tbl td{padding:.4rem .75rem;border-bottom:1px solid #f3f4f6;vertical-align:middle}
 .bulk-tbl tr:hover td{background:#fafbfc}
 .bi{width:100%;padding:.3rem .5rem;border:1px solid #e5e7eb;border-radius:.35rem;font-size:.82rem;font-family:inherit;outline:none;background:#fff}
-.bi:focus{border-color:#22c55e}
-.bsel{width:1rem;height:1rem;accent-color:#22c55e;cursor:pointer}
+.bi:focus{border-color:var(--green-bright)}
+.bsel{width:1rem;height:1rem;accent-color:var(--green-bright);cursor:pointer}
 /* Shipping rule */
 .ship-rule{background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;transition:border-color .15s}
-.ship-rule:hover{border-color:#22c55e}
+.ship-rule:hover{border-color:var(--green-bright)}
 .ship-rule-info{flex:1}
 .ship-rule-name{font-weight:700;font-size:.88rem}
 .ship-rule-meta{font-size:.75rem;color:#9ca3af;margin-top:.1rem}
 .sbadge{font-size:.72rem;font-weight:700;padding:.18rem .55rem;border-radius:9999px;display:inline-block}
 .sb-free{background:#dcfce7;color:#15803d}
-.sb-paid{background:#fef9c3;color:#92400e}
+.sb-paid{background:var(--yellow-soft);color:#92400e}
 /* Coupon */
 .coup-badge{display:inline-block;background:#7c3aed;color:#fff;font-size:.72rem;font-weight:700;padding:.18rem .55rem;border-radius:9999px}
 /* Orders */
 .ord-row{background:#fff;border:1px solid #e5e7eb;border-radius:.5rem;padding:1rem 1.1rem;margin-bottom:.75rem;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:border-color .15s}
-.ord-row:hover{border-color:#22c55e}
+.ord-row:hover{border-color:var(--green-bright)}
 .ord-hdr{display:flex;justify-content:space-between;align-items:flex-start;gap:.75rem;flex-wrap:wrap}
-.ord-id{font-weight:700;color:#16a34a;font-size:.875rem}
+.ord-id{font-weight:700;color:var(--green);font-size:.875rem}
 .ord-date{font-size:.75rem;color:#9ca3af}
 .ord-cust{font-size:.875rem;font-weight:600;margin-top:.25rem}
 .ord-items{font-size:.78rem;color:#6b7280;margin-top:.2rem}
-.ord-total{background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;border-radius:.35rem;padding:.25rem .6rem;font-weight:700;font-size:.875rem;white-space:nowrap;align-self:flex-start}
+.ord-total{background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0;border-radius:.35rem;padding:.25rem .6rem;font-weight:700;font-size:.875rem;white-space:nowrap;align-self:flex-start}
 /* Switch */
 .sw{display:flex;align-items:center;gap:.6rem}
 .sw-track{position:relative;width:2.75rem;height:1.5rem;flex-shrink:0}
 .sw-track input{opacity:0;width:0;height:0}
 .sw-thumb{position:absolute;inset:0;background:#d1d5db;border-radius:9999px;cursor:pointer;transition:background .2s}
 .sw-thumb:before{content:'';position:absolute;width:1.1rem;height:1.1rem;left:.2rem;bottom:.2rem;background:#fff;border-radius:50%;transition:transform .2s}
-.sw-track input:checked+.sw-thumb{background:#22c55e}
+.sw-track input:checked+.sw-thumb{background:var(--green-bright)}
 .sw-track input:checked+.sw-thumb:before{transform:translateX(1.25rem)}
 .sw-lbl{font-size:.875rem;font-weight:600;color:#374151}
 /* Misc */
@@ -396,8 +396,8 @@ textarea.ai{resize:vertical;min-height:4.5rem}
 .sect-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem}
 .sect-hdr h2{font-size:1rem;font-weight:700}
 hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
-.img-prev{height:5rem;border-radius:.5rem;border:2px solid #22c55e;object-fit:cover;margin-top:.5rem;display:none}
-.req{color:#ef4444}
+.img-prev{height:5rem;border-radius:.5rem;border:2px solid var(--green-bright);object-fit:cover;margin-top:.5rem;display:none}
+.req{color:var(--danger)}
 
 /* === IMAGE GALLERY === */
 .gal-wrap{position:relative;height:12rem;background:#f0f0f0;overflow:hidden}
@@ -423,7 +423,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
 .img-add-row .ai{flex:1;font-size:.85rem}
 /* === DISTANCE SHIPPING === */
 .dist-zone{background:#f9fafb;border:1px solid #e5e7eb;border-radius:.5rem;padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;transition:border-color .15s}
-.dist-zone:hover{border-color:#22c55e}
+.dist-zone:hover{border-color:var(--green-bright)}
 .dist-zone-info{flex:1}
 .dist-zone-name{font-weight:700;font-size:.9rem}
 .dist-zone-meta{font-size:.75rem;color:#6b7280;margin-top:.1rem}
@@ -486,12 +486,12 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
 /* === FAV BUTTON ON CARD === */
 .fav-btn{position:absolute;top:.5rem;left:.5rem;background:rgba(255,255,255,.85);border:none;border-radius:50%;width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;z-index:4;transition:transform .2s,background .2s;box-shadow:0 1px 4px rgba(0,0,0,.12)}
 .fav-btn:hover{transform:scale(1.2)}
-.fav-btn.faved{background:#fee2e2;color:#ef4444}
+.fav-btn.faved{background:#fee2e2;color:var(--danger)}
 .share-btn{position:absolute;top:.5rem;right:.5rem;background:rgba(255,255,255,.85);border:none;border-radius:50%;width:2rem;height:2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:4;transition:transform .2s,background .2s;box-shadow:0 1px 4px rgba(0,0,0,.12);padding:0}
 .share-btn:hover{transform:scale(1.2);background:#dcfce7}
 
 /* === CUSTOMER PANEL PAGE === */
-#myaccount-page{min-height:100vh;background:#f5f5f5}
+#myaccount-page{min-height:100vh;background:var(--bg)}
 .mya-hdr{position:sticky;top:0;z-index:50;background:var(--surface);box-shadow:var(--sh-sm);border-bottom:3px solid var(--yellow)}
 .mya-hdr-in{max-width:72rem;margin:0 auto;padding:.75rem 1rem;display:flex;align-items:center;justify-content:space-between}
 .mya-body{max-width:72rem;margin:0 auto;padding:1.5rem 1rem 4rem}
@@ -528,10 +528,10 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
 .hl-feat-card-name{font-size:.8rem;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:.25rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .hl-feat-card-price{font-size:.92rem;font-weight:800;color:var(--green);font-family:var(--font-display)}
 .hl-feat-card-orig{font-size:.72rem;color:#9ca3af;text-decoration:line-through;display:block}
-.hl-feat-card-badge{position:absolute;top:.3rem;right:.3rem;background:#ef4444;color:#fff;font-size:.65rem;font-weight:800;padding:.1rem .35rem;border-radius:9999px}
+.hl-feat-card-badge{position:absolute;top:.3rem;right:.3rem;background:var(--danger);color:#fff;font-size:.65rem;font-weight:800;padding:.1rem .35rem;border-radius:9999px}
 
 /* === ADMIN HIGHLIGHTS TAB === */
-.promo-card{background:#fff;border:2px solid #fde047;border-radius:.5rem;padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;transition:border-color .15s}
+.promo-card{background:#fff;border:2px solid var(--yellow);border-radius:.5rem;padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;transition:border-color .15s}
 .promo-card:hover{border-color:#f97316}
 .promo-card-info{flex:1}
 .promo-card-title{font-weight:700;font-size:.9rem}
@@ -539,7 +539,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
 
 /* === ADMIN CUSTOMERS TAB === */
 .cust-row{background:#fff;border:1px solid #e5e7eb;border-radius:.5rem;padding:1rem 1.1rem;margin-bottom:.75rem;box-shadow:0 1px 3px rgba(0,0,0,.05);cursor:pointer;transition:border-color .15s}
-.cust-row:hover{border-color:#22c55e}
+.cust-row:hover{border-color:var(--green-bright)}
 .cust-name{font-weight:700;font-size:.95rem;color:#111827}
 .cust-contact{font-size:.82rem;color:#6b7280;margin-top:.2rem}
 .cust-stats{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.5rem}
@@ -565,7 +565,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
       </button>
       <!-- Center: Logo -->
       <div class="logo-center" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Rota do Pet – Início">
-        <img src="logo-header.jpg"
+        <img src="logo.png"
              alt="Rota do Pet"
              onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
         <span style="display:none">🐾 Rota do Pet</span>
@@ -668,7 +668,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
             <div id="returning-cust-banner" style="display:none;margin-top:.5rem;padding:.6rem .75rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.5rem;font-size:.85rem;color:#15803d">
               <div id="returning-cust-text"></div>
               <div style="display:flex;gap:.4rem;margin-top:.4rem;flex-wrap:wrap">
-                <button type="button" class="abtn sm" style="background:#16a34a;font-size:.75rem;padding:.3rem .75rem" onclick="fillReturningCustomer()">✓ Sim, preencher</button>
+                <button type="button" class="abtn sm" style="background:var(--green);font-size:.75rem;padding:.3rem .75rem" onclick="fillReturningCustomer()">✓ Sim, preencher</button>
                 <button type="button" class="abtn sm" style="background:#9ca3af;font-size:.75rem;padding:.3rem .75rem" onclick="document.getElementById('returning-cust-banner').style.display='none'">Não, obrigado</button>
               </div>
             </div>
@@ -693,7 +693,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
               <div style="font-size:.82rem;font-weight:700;color:#15803d;margin-bottom:.4rem">🏠 Endereço salvo na sua conta:</div>
               <div id="saved-addr-text" style="font-size:.8rem;color:#374151;margin-bottom:.5rem"></div>
               <div style="display:flex;gap:.4rem;flex-wrap:wrap">
-                <button type="button" class="abtn sm" id="btn-use-saved-addr" style="background:#16a34a;font-size:.75rem;padding:.3rem .75rem" onclick="useSavedAddress()">✓ Usar este endereço</button>
+                <button type="button" class="abtn sm" id="btn-use-saved-addr" style="background:var(--green);font-size:.75rem;padding:.3rem .75rem" onclick="useSavedAddress()">✓ Usar este endereço</button>
                 <button type="button" class="abtn sm" id="btn-use-other-addr" style="background:#9ca3af;font-size:.75rem;padding:.3rem .75rem" onclick="useOtherAddress()">Usar outro endereço</button>
               </div>
             </div>
@@ -809,7 +809,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
         Voltar
       </button>
-      <span style="font-family:'Inter',sans-serif;font-weight:700;font-size:1.1rem;color:#ca8a04">👤 Área do Cliente</span>
+      <span style="font-family:'Inter',sans-serif;font-weight:700;font-size:1.1rem;color:var(--yellow-dark)">👤 Área do Cliente</span>
       <div style="width:5rem"></div>
     </div>
   </header>
@@ -876,7 +876,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
         <button type="button" onclick="showForgotPassword()" style="background:none;border:none;color:#9ca3af;font-size:.78rem;cursor:pointer;text-decoration:underline;font-family:inherit">Esqueci minha senha</button>
       </div>
       <!-- Reset de senha -->
-      <div id="mya-reset-wrap" style="display:none;margin-top:.75rem;padding:.75rem;background:#fefce8;border:1px solid #fde047;border-radius:.5rem">
+      <div id="mya-reset-wrap" style="display:none;margin-top:.75rem;padding:.75rem;background:#fefce8;border:1px solid var(--yellow);border-radius:.5rem">
         <div style="font-size:.82rem;font-weight:700;color:#92400e;margin-bottom:.35rem">🔑 Redefinir Senha</div>
         <div style="font-size:.76rem;color:#6b7280;margin-bottom:.65rem">Confirme seu telefone e nome cadastrado para redefinir a senha.</div>
         <div class="fg" style="margin-bottom:.45rem">
@@ -904,7 +904,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
           <div style="font-weight:700;font-size:1rem" id="mya-greeting">Olá!</div>
           <div style="font-size:.8rem;color:#6b7280" id="mya-phone-lbl"></div>
         </div>
-        <button onclick="myaLogout()" style="background:#fee2e2;color:#ef4444;border:none;border-radius:.375rem;padding:.4rem .85rem;font-weight:600;font-size:.82rem;cursor:pointer">Sair</button>
+        <button onclick="myaLogout()" style="background:#fee2e2;color:var(--danger);border:none;border-radius:.375rem;padding:.4rem .85rem;font-weight:600;font-size:.82rem;cursor:pointer">Sair</button>
       </div>
       <div class="mya-tabs">
         <button class="mya-tab on" id="myt-orders" onclick="swMyaTab('orders')">📦 Pedidos</button>
@@ -941,8 +941,11 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
     <div class="adm-lcard">
       <h1>Painel Admin</h1>
       <p>Rota do Pet</p>
-      <div class="af"><label>Senha de Administrador</label>
-        <input type="password" class="ai" id="adm-pwd" placeholder="Digite a senha" onkeydown="if(event.key==='Enter')admLogin()"/>
+      <div class="af"><label>E-mail</label>
+        <input type="email" class="ai" id="adm-email" placeholder="seu@email.com" autocomplete="username" onkeydown="if(event.key==='Enter')admLogin()"/>
+      </div>
+      <div class="af"><label>Senha</label>
+        <input type="password" class="ai" id="adm-pwd" placeholder="Digite a senha" autocomplete="current-password" onkeydown="if(event.key==='Enter')admLogin()"/>
         <div class="fmsg err" id="adm-err" style="display:none">Senha incorreta</div>
       </div>
       <button class="abtn full" onclick="admLogin()">Entrar</button>
@@ -956,7 +959,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
         <h1>Painel de Administração — Rota do Pet</h1>
         <div style="display:flex;gap:.6rem;align-items:center">
           <button onclick="goTo('shop')" style="background:#fbbf24;color:#111;border:none;border-radius:.375rem;padding:.38rem .85rem;font-weight:600;font-size:.82rem;cursor:pointer">← Ir para Loja</button>
-          <button onclick="admLogout()" style="background:#ef4444;color:#fff;border:none;border-radius:.375rem;padding:.38rem .85rem;font-weight:600;font-size:.82rem;cursor:pointer">Sair</button>
+          <button onclick="admLogout()" style="background:var(--danger);color:#fff;border:none;border-radius:.375rem;padding:.38rem .85rem;font-weight:600;font-size:.82rem;cursor:pointer">Sair</button>
         </div>
       </div>
     </header>
@@ -1007,7 +1010,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
           </div>
           <!-- Featured Products -->
           <div class="acard">
-            <h2 style="color:#ca8a04">⭐ Produtos em Destaque</h2>
+            <h2 style="color:var(--yellow-dark)">⭐ Produtos em Destaque</h2>
             <p style="font-size:.82rem;color:#6b7280;margin-bottom:.85rem">Produtos marcados como destaque aparecem em seção especial no topo da loja.</p>
             <div style="display:flex;gap:.6rem;align-items:flex-end;margin-bottom:.85rem;flex-wrap:wrap">
               <div class="af" style="margin:0;flex:1;min-width:180px"><label>Produto</label><select class="ai" id="feat-prod-sel"></select></div>
@@ -1027,7 +1030,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
       <div class="atab" id="at-customers">
         <div class="acard">
           <div class="sect-hdr">
-            <h2 style="color:#16a34a">👥 Clientes</h2>
+            <h2 style="color:var(--green)">👥 Clientes</h2>
             <div style="display:flex;gap:.5rem;flex-wrap:wrap">
               <input type="text" class="ai" id="cust-search" placeholder="Buscar por nome ou telefone..." oninput="renderCustomers()" style="width:220px;font-size:.85rem;padding:.4rem .75rem"/>
               <select class="ai" id="cust-sort" onchange="renderCustomers()" style="width:160px;font-size:.85rem;padding:.4rem .75rem">
@@ -1048,19 +1051,19 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
         <div class="agrid-stats" id="stats-grid"></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
           <div class="acard">
-            <h2 style="color:#ef4444;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
+            <h2 style="color:var(--danger);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap">
               ⚠️ Estoque Baixo
               <span style="font-size:.78rem;font-weight:400;color:#9ca3af;display:flex;align-items:center;gap:.25rem">
                 (alerta quando &lt;
                 <input type="number" id="thr-inline" min="1" max="999"
-                  style="width:3.5rem;font-size:.82rem;padding:.1rem .3rem;border:1px solid #e5e7eb;border-radius:.25rem;font-weight:600;color:#ef4444;text-align:center"
+                  style="width:3.5rem;font-size:.82rem;padding:.1rem .3rem;border:1px solid #e5e7eb;border-radius:.25rem;font-weight:600;color:var(--danger);text-align:center"
                   onchange="saveThrInline(this.value)"/>
                 un.)
               </span>
             </h2>
             <div id="low-stock"></div>
           </div>
-          <div class="acard"><h2 style="color:#16a34a">🛒 Últimos Pedidos</h2><div id="overview-recent-orders"></div></div>
+          <div class="acard"><h2 style="color:var(--green)">🛒 Últimos Pedidos</h2><div id="overview-recent-orders"></div></div>
         </div>
         <div id="sales-report" style="margin-top:1.25rem"></div>
       </div>
@@ -1069,7 +1072,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
       <div class="atab" id="at-bulk">
         <div class="acard">
           <div class="sect-hdr">
-            <h2 style="color:#16a34a">Edição em Massa de Produtos</h2>
+            <h2 style="color:var(--green)">Edição em Massa de Produtos</h2>
             <div style="display:flex;gap:.4rem;flex-wrap:wrap">
               <button class="abtn sm" onclick="bulkSelAll(true)">Sel. Todos</button>
               <button class="abtn sm out" onclick="bulkSelAll(false)">Desselec.</button>
@@ -1150,7 +1153,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
       <div class="atab" id="at-cats">
         <div class="agrid2">
           <div class="acard">
-            <h2 id="cf-title" style="color:#16a34a">Adicionar Categoria</h2>
+            <h2 id="cf-title" style="color:var(--green)">Adicionar Categoria</h2>
             <div class="af"><label>Nome <span class="req">*</span></label><input type="text" class="ai" id="cf-name" placeholder="Ex: Ração"/></div>
             <div class="af"><label>Descrição</label><textarea class="ai" id="cf-desc" rows="2" placeholder="Opcional"></textarea></div>
             <div class="af"><label>Emoji</label><input type="text" class="ai" id="cf-emoji" placeholder="📦" maxlength="4"/></div>
@@ -1159,7 +1162,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
             <button class="abtn full red" id="cf-cancel" style="display:none;margin-top:.35rem" onclick="cancelCat()">Cancelar</button>
           </div>
           <div class="acard">
-            <h2 style="color:#16a34a">Categorias Existentes</h2>
+            <h2 style="color:var(--green)">Categorias Existentes</h2>
             <div id="cat-list" class="alist"></div>
           </div>
         </div>
@@ -1207,7 +1210,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
       <div class="atab" id="at-shipping">
         <div style="display:grid;grid-template-columns:1fr;gap:1.25rem">
           <div class="acard">
-            <h2 style="color:#16a34a">⚙️ Configuração Global de Frete</h2>
+            <h2 style="color:var(--green)">⚙️ Configuração Global de Frete</h2>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;margin-bottom:1rem">
               <div class="af" style="margin:0"><label>Frete padrão (R$) — 0 = Grátis</label><input type="number" min="0" step="0.01" class="ai" id="ship-def" placeholder="0,00"/></div>
               <div class="af" style="margin:0"><label>Frete grátis acima de (R$) — 0 = desativado</label><input type="number" min="0" step="0.01" class="ai" id="ship-free" placeholder="0"/></div>
@@ -1260,7 +1263,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
               <div class="af" style="margin:0;padding-bottom:.1rem">
                 <label style="visibility:hidden;display:block">.</label>
                 <label style="display:flex;align-items:center;gap:.5rem;cursor:pointer;white-space:nowrap;font-size:.85rem;font-weight:600;color:#15803d;background:#dcfce7;border:1px solid #86efac;border-radius:.4rem;padding:.5rem .8rem">
-                  <input type="checkbox" id="dz-free" onchange="toggleDzFree(this)" style="accent-color:#22c55e;width:1rem;height:1rem"/>
+                  <input type="checkbox" id="dz-free" onchange="toggleDzFree(this)" style="accent-color:var(--green-bright);width:1rem;height:1rem"/>
                   🎉 Frete Grátis
                 </label>
               </div>
@@ -1288,7 +1291,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
             <button onclick="exportOrdersCSV()" style="background:#dcfce7;color:#15803d;border:none;border-radius:.375rem;padding:.35rem .85rem;font-weight:600;font-size:.8rem;cursor:pointer" title="Baixa um arquivo CSV com todos os pedidos. Abra no Excel ou Google Sheets para guardar como backup.">📥 Exportar CSV</button>
             <button onclick="exportCustomersCSV()" style="background:#dbeafe;color:#1e40af;border:none;border-radius:.375rem;padding:.35rem .85rem;font-weight:600;font-size:.8rem;cursor:pointer" title="Baixa um arquivo CSV com a lista de clientes consolidada (telefone, total gasto, etc).">📥 Exportar Clientes</button>
             <button onclick="purgeOldOrders()" style="background:#fef3c7;color:#92400e;border:none;border-radius:.375rem;padding:.35rem .85rem;font-weight:600;font-size:.8rem;cursor:pointer" title="Remove pedidos com mais de 90 dias para liberar espaço.">🧹 Limpar > 90 dias</button>
-            <button onclick="clearOrders()" style="background:#fee2e2;color:#ef4444;border:none;border-radius:.375rem;padding:.35rem .85rem;font-weight:600;font-size:.8rem;cursor:pointer">🗑 Limpar Tudo</button>
+            <button onclick="clearOrders()" style="background:#fee2e2;color:var(--danger);border:none;border-radius:.375rem;padding:.35rem .85rem;font-weight:600;font-size:.8rem;cursor:pointer">🗑 Limpar Tudo</button>
           </div>
         </div>
         <!-- Filtros -->
@@ -1381,7 +1384,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
           <p style="font-size:.82rem;color:#6b7280;margin:.25rem 0 .75rem">Envia todos os dados locais para o banco em nuvem. Faça isso uma vez para migrar e depois os dados sincronizam automaticamente a cada salvamento.</p>
           <button class="abtn sm" style="background:#0ea5e9" onclick="migrateToSupabase()">⬆️ Migrar dados para o Supabase</button>
           <hr class="sep"/>
-          <h2 style="color:#ef4444">Zona de Perigo</h2>
+          <h2 style="color:var(--danger)">Zona de Perigo</h2>
           <button class="abtn full red" style="margin-top:.5rem" onclick="resetDemo()">Restaurar Produtos de Demonstração</button>
           <button class="abtn full red" style="margin-top:.4rem" onclick="nukeAll()">Apagar TODOS os Dados</button>
         </div>
@@ -1428,6 +1431,8 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
 <!-- ============================================================
      JAVASCRIPT
      ============================================================ -->
+<!-- Biblioteca oficial do Supabase (login + banco com regras de segurança) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ─── DATA ─── */
 const DEMO_CATS = [
@@ -1455,55 +1460,102 @@ const DEMO_PRODS = [
 const K={cats:'rdp2_cats',prods:'rdp2_prods',coupons:'rdp2_coupons',ship:'rdp2_ship',
           cfg:'rdp2_cfg',orders:'rdp2_orders',cart:'rdp2_cart',pwd:'rdp2_pwd'};
 
-/* ─── SUPABASE ─── */
-const SUPA_URL='https://fxwiacgowdwtwkrnczno.supabase.co/rest/v1';
+/* ─── SUPABASE (cliente oficial supabase-js v2) ───
+   Segurança agora vem das regras (RLS) no banco, não de esconder a chave:
+   - catálogo: qualquer um LÊ, só o admin logado GRAVA
+   - pedidos: criados pela função place_order; só o admin LÊ/altera
+   - contas de cliente: só pelas funções customer_* (senha com hash) */
+const SUPA_URL_BASE='https://fxwiacgowdwtwkrnczno.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4d2lhY2dvd2R3dHdrcm5jem5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0NDk0MjIsImV4cCI6MjA5NDAyNTQyMn0.uGvKAFn7KzNe0xxMn7LP2Te_cxBFb8EjLkaiGz7TW-8';
-const SUPA_H={'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':`Bearer ${SUPA_KEY}`};
+let sb;
+if(window.supabase && window.supabase.createClient){
+  sb=window.supabase.createClient(SUPA_URL_BASE,SUPA_KEY);
+}else{
+  // Se a biblioteca (CDN) não carregar, o site segue lendo o cache local
+  // em vez de dar tela branca. Gravações/login ficam indisponíveis até recarregar.
+  console.error('Biblioteca Supabase não carregou — modo somente-cache.');
+  const fail=()=>Promise.reject(new Error('supabase-js indisponível'));
+  const chain={select:fail,upsert:fail,order:fail,eq:fail,neq:fail,lt:fail};
+  sb={ from:()=>({select:fail,upsert:fail,
+        update:()=>chain, delete:()=>chain, order:()=>chain}),
+       rpc:fail,
+       auth:{signInWithPassword:fail,signOut:()=>Promise.resolve({}),updateUser:fail,getSession:()=>Promise.resolve({data:{session:null}})} };
+}
 
+// Chaves que ficam na tabela "catalog" (público lê, admin grava)
+const CATALOG_KEYS=[K.cats,K.prods,K.coupons,K.ship,K.cfg];
+
+// Grava um bloco do catálogo. Só funciona logado como admin (a RLS barra o resto).
 async function syncToSupa(k,v){
-  return fetch(`${SUPA_URL}/rdp_store`,{
-    method:'POST',
-    headers:{...SUPA_H,'Prefer':'resolution=merge-duplicates'},
-    body:JSON.stringify({store_key:k,data:v,updated_at:new Date().toISOString()})
-  });
+  if(!CATALOG_KEYS.includes(k)) return; // carrinho/senha/pedidos não vão por aqui
+  const {error}=await sb.from('catalog').upsert(
+    {store_key:k,data:v,updated_at:new Date().toISOString()},
+    {onConflict:'store_key'}
+  );
+  if(error){
+    if(error.code==='42501'||/row-level security/i.test(error.message||'')){
+      console.warn('Gravação bloqueada (faça login de admin):',k);
+    } else { console.error('Erro ao gravar no Supabase',k,error); }
+    throw error;
+  }
 }
 
-async function loadFromSupa(){
-  const r=await fetch(`${SUPA_URL}/rdp_store?select=store_key,data`,{headers:SUPA_H});
-  if(!r.ok)throw new Error('Supabase: '+r.status);
-  return r.json();
-}
-
+// Carrega o catálogo público para o cache local (localStorage)
 async function initFromSupa(){
   try{
-    const rows=await Promise.race([
-      loadFromSupa(),
-      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),4000))
+    const {data,error}=await Promise.race([
+      sb.from('catalog').select('store_key,data'),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),5000))
     ]);
-    if(rows&&rows.length){
-      rows.forEach(row=>localStorage.setItem(row.store_key,JSON.stringify(row.data)));
-      console.log('✅ Supabase: dados carregados ('+rows.length+' chaves)');
+    if(error) throw error;
+    if(data&&data.length){
+      data.forEach(row=>localStorage.setItem(row.store_key,JSON.stringify(row.data)));
+      console.log('✅ Supabase: catálogo carregado ('+data.length+' chaves)');
     }
   }catch(e){
-    console.warn('⚠️ Supabase indisponível, usando localStorage:',e.message);
+    console.warn('⚠️ Supabase indisponível, usando cache local:',e.message);
   }
 }
 
-async function migrateToSupabase(){
-  // Usa os dados em memória (não depende do localStorage estar populado)
-  const items=[
-    [K.cats,CATS],[K.prods,PRODS],[K.coupons,COUPONS],
-    [K.orders,ORDERS],[K.ship,SHIP],[K.cfg,CONFIG],[K.cart,cart]
-  ];
-  let ok=0,fail=0;
-  for(const [k,v] of items){
-    try{await syncToSupa(k,v);ok++;}catch(e){fail++;}
+// Carrega os pedidos do banco para o admin (precisa estar logado).
+// Mantém um cache em localStorage para as telas do painel continuarem síncronas.
+async function loadOrdersAdmin(){
+  try{
+    const {data,error}=await sb.from('orders')
+      .select('id,status,payload,created_at').order('created_at',{ascending:true});
+    if(error) throw error;
+    ORDERS=(data||[]).map(r=>({...r.payload,id:r.id,status:r.status}));
+    localStorage.setItem(K.orders,JSON.stringify(ORDERS));
+    return true;
+  }catch(e){
+    console.warn('Não foi possível carregar pedidos:',e.message);
+    return false;
   }
-  const pwdRaw=localStorage.getItem(K.pwd);
-  if(pwdRaw){try{await syncToSupa(K.pwd,JSON.parse(pwdRaw));ok++;}catch(e){fail++;}}
-  if(ok>0)toast('✅ '+ok+' itens migrados para o Supabase!');
-  else toast('Nada para migrar.','warn');
-  if(fail>0)toast(fail+' falharam — veja o console.','err');
+}
+
+// Contas de clientes para o painel admin (precisa estar logado).
+// A senha NUNCA vem para o navegador — só nome, endereço e telefone.
+let ADMIN_ACCOUNTS={};
+async function loadAccountsAdmin(){
+  try{
+    const {data,error}=await sb.from('accounts').select('phone,name,address,created_at');
+    if(error) throw error;
+    ADMIN_ACCOUNTS={};
+    (data||[]).forEach(r=>{ADMIN_ACCOUNTS[r.phone]={name:r.name,address:r.address,created_at:r.created_at};});
+    return true;
+  }catch(e){
+    console.warn('Não foi possível carregar contas:',e.message);
+    return false;
+  }
+}
+
+// Botão "Atualizar dados" do painel: relê catálogo, pedidos e contas do banco.
+async function migrateToSupabase(){
+  await initFromSupa();
+  await loadOrdersAdmin();
+  await loadAccountsAdmin();
+  loadAll(); renderOverview&&renderOverview();
+  toast('✅ Dados atualizados do servidor!');
 }
 
 let CATS=[],PRODS=[],COUPONS=[],ORDERS=[],cart=[];
@@ -1751,7 +1803,7 @@ async function geocodeStoreAddr(){
   const addr=(document.getElementById('ship-addr-text')?.value||'').trim();
   const res=document.getElementById('geocode-result');
   if(!addr){toast('Digite o endereço da loja primeiro','err');return;}
-  if(res){res.style.cssText='display:block;margin-top:.35rem;font-size:.78rem;padding:.35rem .6rem;border-radius:.35rem;background:#fefce8;color:#92400e;border:1px solid #fde047';res.textContent='🔄 Buscando coordenadas...';}
+  if(res){res.style.cssText='display:block;margin-top:.35rem;font-size:.78rem;padding:.35rem .6rem;border-radius:.35rem;background:#fefce8;color:#92400e;border:1px solid var(--yellow)';res.textContent='🔄 Buscando coordenadas...';}
   try{
     const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(addr+', Brasil')}&format=json&limit=1&countrycodes=br`;
     const r=await fetch(url,{headers:{'Accept-Language':'pt-BR'}});
@@ -2175,31 +2227,18 @@ function suggestReturningCustomer(){
   banner.style.display='none';
   _returningCust=null;
   if(phone.length<10) return;
-  // Prioridade 1: conta cadastrada com endereço salvo
-  const accounts=ls('rdp2_accounts',{});
-  const acc=accounts[phone];
-  if(acc&&acc.address&&acc.address.street){
-    const fakeOrder={name:acc.name,phone,email:'',addrStruct:acc.address,cep:acc.address.cep||''};
-    _returningCust=fakeOrder;
+  // Sugestão só se o cliente estiver logado na Área do Cliente com endereço salvo
+  // (por privacidade, não consultamos dados de outros telefones sem senha).
+  if(myaAccount&&myaPhoneKey===phone&&myaAccount.address&&myaAccount.address.street){
+    const acc=myaAccount;
+    _returningCust={name:acc.name,phone,email:'',addrStruct:acc.address,cep:acc.address.cep||''};
     const txt=document.getElementById('returning-cust-text');
     if(txt){
-      txt.innerHTML=`👋 <strong>Olá, ${esc(acc.name.split(' ')[0])}!</strong><br>
+      txt.innerHTML=`👋 <strong>Olá, ${esc((acc.name||'').split(' ')[0])}!</strong><br>
         <span style="font-size:.78rem;color:#6b7280">Encontramos seu endereço salvo. Deseja preencher automaticamente?</span>`;
     }
     banner.style.display='block';
-    return;
   }
-  // Prioridade 2: pedidos anteriores
-  const matches=(ORDERS||[]).filter(o=>(o.phone||'').replace(/\D/g,'')===phone);
-  if(!matches.length) return;
-  const last=matches[matches.length-1];
-  _returningCust=last;
-  const txt=document.getElementById('returning-cust-text');
-  if(txt){
-    txt.innerHTML=`👋 <strong>Bem-vindo de volta, ${esc(last.name)}!</strong><br>
-      <span style="font-size:.78rem;color:#6b7280">Encontramos ${matches.length} pedido(s) anterior(es). Deseja preencher os mesmos dados?</span>`;
-  }
-  banner.style.display='block';
 }
 function fillReturningCustomer(){
   if(!_returningCust) return;
@@ -2282,7 +2321,7 @@ async function lookupCep(){
     toast('Erro ao buscar CEP','err');
   }
 }
-function submitOrder(){
+async function submitOrder(){
   if(!cart.length){toast('Carrinho está vazio','warn');return;}
   const subBtn=document.getElementById('sub-btn');
   if(subBtn && subBtn.dataset.busy==='1') return;
@@ -2417,8 +2456,8 @@ function submitOrder(){
   // Save coupon usage
   if(activeCoupon){activeCoupon.usedCount=(activeCoupon.usedCount||0)+1;const i=COUPONS.findIndex(c=>c.id===activeCoupon.id);if(i>=0)COUPONS[i]=activeCoupon;sv(K.coupons,COUPONS);}
 
-  // Save order
-  ORDERS.push({
+  // Monta o pedido. cartItems vai junto p/ o servidor descontar o estoque.
+  const order={
     id:Date.now(), date:new Date().toLocaleString('pt-BR'),
     name, phone,
     email: document.getElementById('fe').value.trim()||'',
@@ -2431,22 +2470,23 @@ function submitOrder(){
     frete:shipLabel, total,
     coupon:activeCoupon?activeCoupon.code:'',
     notes,
-    status:'pendente'   // 1. Status do pedido: pendente, confirmado, em_entrega, entregue, cancelado
-  });
-  sv(K.orders,ORDERS);
+    status:'pendente',
+    cartItems:cart.map(i=>({id:String(i.id),qty:i.qty}))
+  };
+  // Cria o pedido no servidor (insere + desconta estoque). Não trava o WhatsApp se falhar.
+  try{
+    const {error}=await sb.rpc('place_order',{p_order:order});
+    if(error) throw error;
+  }catch(e){
+    console.error('Falha ao registrar pedido no servidor:',e);
+    toast('Não consegui salvar no servidor; confirme pelo WhatsApp mesmo assim.','warn');
+  }
 
-  // Descontar estoque dos produtos vendidos
-  cart.forEach(item=>{
-    const p=PRODS.find(x=>x.id===item.id);
-    if(p){ p.stock=Math.max(0,(p.stock||0)-item.qty); }
-  });
-  sv(K.prods,PRODS);
-
-  // Verifica se algum produto ficou abaixo do limite após a venda
+  // Alerta de estoque baixo (simulação local só para a mensagem; o servidor já descontou)
   const thr=CONFIG.lowStockThreshold||5;
-  const stockAlerts=cart.filter(item=>{const p=PRODS.find(x=>x.id===item.id);return p&&p.stock>0&&p.stock<thr;});
+  const stockAlerts=cart.filter(item=>{const p=PRODS.find(x=>x.id===item.id);return p&&(p.stock-item.qty)>0&&(p.stock-item.qty)<thr;});
   const finalMsg=stockAlerts.length>0
-    ?msg+'\n\n⚠️ *ALERTA – ESTOQUE BAIXO:*\n'+stockAlerts.map(item=>{const p=PRODS.find(x=>x.id===item.id);return`  • ${p.name}: apenas ${p.stock} un. restante(s)`;}).join('\n')
+    ?msg+'\n\n⚠️ *ALERTA – ESTOQUE BAIXO:*\n'+stockAlerts.map(item=>{const p=PRODS.find(x=>x.id===item.id);return`  • ${p.name}: apenas ${Math.max(0,p.stock-item.qty)} un. restante(s)`;}).join('\n')
     :msg;
   const wpp=CONFIG.wpp||'5516990983563';
   window.open(`https://api.whatsapp.com/send/?phone=${wpp}&text=${encodeURIComponent(finalMsg)}`,'_blank');
@@ -2456,59 +2496,47 @@ function submitOrder(){
 }
 
 /* ─── ADMIN ─── */
-/* Hash SHA-256 da senha — usa SubtleCrypto nativo do navegador. Senha nunca é salva em texto puro. */
-async function hashPwd(pwd){
-  const buf=new TextEncoder().encode(pwd);
-  const dig=await crypto.subtle.digest('SHA-256',buf);
-  return [...new Uint8Array(dig)].map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-const DEFAULT_PWD_HASH='240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9'; // hash de "admin123"
-function isUsingDefaultPwd(){
-  const stored=ls(K.pwd,null);
-  return !stored || stored===DEFAULT_PWD_HASH;
-}
+/* Login agora é de verdade, via Supabase Auth (e-mail + senha).
+   Só quem está logado consegue gravar no banco (as regras RLS garantem isso). */
 async function admLogin(){
+  const emailEl=document.getElementById('adm-email');
   const pwdEl=document.getElementById('adm-pwd');
+  const email=(emailEl.value||'').trim();
   const pwd=pwdEl.value;
   const err=document.getElementById('adm-err');
-  if(!pwd){err.textContent='Digite a senha';err.style.display='block';return;}
-  const stored=ls(K.pwd,null);
-  // Se nunca foi configurada, aceita "admin123" e força troca em seguida
-  let ok=false;
-  if(!stored){ ok = (pwd==='admin123'); }
-  else { ok = (await hashPwd(pwd))===stored; }
-  if(ok){
-    err.style.display='none';pwdEl.value='';
-    document.getElementById('adm-login').style.display='none';
-    document.getElementById('adm-dash').style.display='block';
-    // Reload fresh data from storage every login
-    loadAll();
-    swTab('overview');
-    // Se ainda está com a senha padrão, mostra aviso forte
-    if(isUsingDefaultPwd()){
-      setTimeout(()=>{
-        toast('⚠️ Você está usando a senha padrão! Vá em Configurações e troque agora.','warn');
-        // destaque visual no card de senha quando a aba Config abrir
-      },400);
-    }
-  } else {
-    err.textContent='Senha incorreta';err.style.display='block';
+  if(!email||!pwd){err.textContent='Preencha e-mail e senha';err.style.display='block';return;}
+  err.style.display='none';
+  const {error}=await sb.auth.signInWithPassword({email,password:pwd});
+  if(error){
+    err.textContent=/Invalid login/i.test(error.message)?'E-mail ou senha incorretos':error.message;
+    err.style.display='block';
+    return;
   }
+  pwdEl.value='';
+  document.getElementById('adm-login').style.display='none';
+  document.getElementById('adm-dash').style.display='block';
+  await initFromSupa();      // catálogo fresco
+  await loadOrdersAdmin();   // pedidos do banco
+  await loadAccountsAdmin(); // contas de clientes
+  loadAll();
+  swTab('overview');
 }
 async function changePwd(){
   const p1=document.getElementById('cfg-p1').value,p2=document.getElementById('cfg-p2').value;
   if(!p1){toast('Digite uma senha','err');return;}
   if(p1.length<8){toast('Senha precisa ter ao menos 8 caracteres','err');return;}
-  if(p1==='admin123'){toast('Não use a senha padrão','err');return;}
-  // exige no mínimo 1 letra e 1 número
   if(!/[A-Za-z]/.test(p1) || !/\d/.test(p1)){toast('Use letras e números','err');return;}
   if(p1!==p2){toast('Senhas não coincidem','err');return;}
-  const h=await hashPwd(p1);
-  localStorage.setItem(K.pwd,JSON.stringify(h));
+  const {error}=await sb.auth.updateUser({password:p1});
+  if(error){toast('Erro ao trocar senha: '+error.message,'err');return;}
   document.getElementById('cfg-p1').value='';document.getElementById('cfg-p2').value='';
-  toast('Senha alterada com sucesso!');
+  toast('Senha de administrador alterada com sucesso!');
 }
-function admLogout(){document.getElementById('adm-login').style.display='flex';document.getElementById('adm-dash').style.display='none';}
+async function admLogout(){
+  await sb.auth.signOut();
+  document.getElementById('adm-login').style.display='flex';
+  document.getElementById('adm-dash').style.display='none';
+}
 function swTab(t){
   document.querySelectorAll('.atab').forEach(e=>e.classList.remove('on'));
   document.querySelectorAll('.tab-link').forEach(e=>e.classList.remove('on'));
@@ -2530,7 +2558,7 @@ function swTab(t){
   }  if(t==='coupons')   {renderCoupList();popCoupSelects();}
   if(t==='shipping')  {loadShipUI();popShipSelects();}
   if(t==='orders')    renderOrders();
-  if(t==='customers') {ORDERS=ls(K.orders,[]);renderCustomers();}
+  if(t==='customers') {Promise.all([loadOrdersAdmin(),loadAccountsAdmin()]).then(()=>renderCustomers());}
   if(t==='config')    loadConfigUI();
 }
 
@@ -2739,7 +2767,7 @@ function renderProdList(filter=''){
       <div class="ali-info">
         <div class="ali-name">${p.name}${p.isActive===false?' <span style="color:#9ca3af;font-weight:400">(inativo)</span>':''}</div>
         <div class="ali-meta">${cat?cat.name:'—'}</div>
-        <div class="ali-price">${p.priceOrig&&p.priceOrig>p.price?`<span style="text-decoration:line-through;color:#9ca3af;font-size:.8rem;margin-right:.3rem">R$${p.priceOrig.toFixed(2).replace('.',',')}</span>`:''}R$${p.price.toFixed(2).replace('.',',')}${p.priceOrig&&p.priceOrig>p.price?` <span style="background:#ef4444;color:#fff;font-size:.68rem;font-weight:800;padding:.1rem .4rem;border-radius:9999px">-${Math.round((1-p.price/p.priceOrig)*100)}%</span>`:''}</div>
+        <div class="ali-price">${p.priceOrig&&p.priceOrig>p.price?`<span style="text-decoration:line-through;color:#9ca3af;font-size:.8rem;margin-right:.3rem">R$${p.priceOrig.toFixed(2).replace('.',',')}</span>`:''}R$${p.price.toFixed(2).replace('.',',')}${p.priceOrig&&p.priceOrig>p.price?` <span style="background:var(--danger);color:#fff;font-size:.68rem;font-weight:800;padding:.1rem .4rem;border-radius:9999px">-${Math.round((1-p.price/p.priceOrig)*100)}%</span>`:''}</div>
         <div class="ali-stock ${skc}">${stxt}</div>
       </div>
       <div class="ali-acts">
@@ -2983,18 +3011,20 @@ const ORDER_STATUSES={
   pendente:    {label:'Pendente',     color:'#f59e0b', bg:'#fef3c7', icon:'⏳'},
   confirmado:  {label:'Confirmado',   color:'#0ea5e9', bg:'#e0f2fe', icon:'✅'},
   em_entrega:  {label:'Em entrega',   color:'#8b5cf6', bg:'#ede9fe', icon:'🚚'},
-  entregue:    {label:'Entregue',     color:'#16a34a', bg:'#dcfce7', icon:'📦'},
+  entregue:    {label:'Entregue',     color:'var(--green)', bg:'#dcfce7', icon:'📦'},
   cancelado:   {label:'Cancelado',    color:'#dc2626', bg:'#fee2e2', icon:'❌'}
 };
 function statusBadge(status){
   const s=ORDER_STATUSES[status||'pendente']||ORDER_STATUSES.pendente;
   return `<span style="display:inline-block;background:${s.bg};color:${s.color};border-radius:.35rem;padding:.18rem .55rem;font-size:.72rem;font-weight:700;margin-left:.3rem">${s.icon} ${esc(s.label)}</span>`;
 }
-function changeOrderStatus(orderId, newStatus){
+async function changeOrderStatus(orderId, newStatus){
   if(!ORDER_STATUSES[newStatus]) return;
   const o=ORDERS.find(x=>x.id===orderId); if(!o) return;
   o.status=newStatus;
-  sv(K.orders,ORDERS);
+  const {error}=await sb.from('orders').update({status:newStatus,payload:{...o,status:newStatus}}).eq('id',orderId);
+  if(error){toast('Erro ao atualizar status: '+error.message,'err');return;}
+  localStorage.setItem(K.orders,JSON.stringify(ORDERS));
   renderOrders();
   renderOverview();
   toast(`Status atualizado: ${ORDER_STATUSES[newStatus].label}`);
@@ -3054,7 +3084,12 @@ function renderOrders(){
   </div>`;
   }).join('');
 }
-function clearOrders(){if(!confirm('Apagar todos os pedidos?'))return;ORDERS=[];sv(K.orders,ORDERS);renderOrders();renderOverview();toast('Pedidos apagados','warn');}
+async function clearOrders(){
+  if(!confirm('Apagar todos os pedidos?'))return;
+  const {error}=await sb.from('orders').delete().neq('id',0);
+  if(error){toast('Erro ao apagar: '+error.message,'err');return;}
+  ORDERS=[];localStorage.setItem(K.orders,JSON.stringify(ORDERS));renderOrders();renderOverview();toast('Pedidos apagados','warn');
+}
 
 /* Exporta CSV com todos os pedidos. CSV é compatível com Excel, Google Sheets, etc.
    IMPORTANTE: até a migração para banco em nuvem, esse é o backup oficial.
@@ -3110,14 +3145,16 @@ function exportCustomersCSV(){
   downloadFile(`clientes_rotadopet_${today}.csv`,csv);
   toast(`${custs.length} cliente(s) exportado(s)!`);
 }
-function purgeOldOrders(){
+async function purgeOldOrders(){
   const cutoff=Date.now() - 90*24*60*60*1000; // 90 dias atrás em ms
   const before=ORDERS.length;
   const old=ORDERS.filter(o=>o.id<cutoff);
   if(!old.length){toast('Nenhum pedido com mais de 90 dias','warn');return;}
   if(!confirm(`Remover ${old.length} pedido(s) com mais de 90 dias?\n\nDica: exporte o CSV antes para guardar o histórico.`)) return;
+  const {error}=await sb.from('orders').delete().lt('id',cutoff);
+  if(error){toast('Erro ao remover: '+error.message,'err');return;}
   ORDERS=ORDERS.filter(o=>o.id>=cutoff);
-  sv(K.orders,ORDERS);renderOrders();renderOverview();
+  localStorage.setItem(K.orders,JSON.stringify(ORDERS));renderOrders();renderOverview();
   toast(`${before-ORDERS.length} pedido(s) antigo(s) removido(s)`,'warn');
 }
 
@@ -3171,7 +3208,7 @@ function renderLogoPreview(){
   el.innerHTML=url
     ?`<div style="display:flex;align-items:center;gap:.6rem;margin-top:.25rem">
         <img src="${url}" style="max-height:4rem;max-width:180px;border-radius:.4rem;border:1px solid #e5e7eb;padding:.25rem;object-fit:contain"/>
-        <button onclick="CONFIG.logoUrl='';document.getElementById('store-logo-url').value='';renderLogoPreview()" style="background:#fee2e2;color:#ef4444;border:none;border-radius:.35rem;padding:.25rem .6rem;cursor:pointer;font-size:.78rem;font-weight:600">🗑 Remover</button>
+        <button onclick="CONFIG.logoUrl='';document.getElementById('store-logo-url').value='';renderLogoPreview()" style="background:#fee2e2;color:var(--danger);border:none;border-radius:.35rem;padding:.25rem .6rem;cursor:pointer;font-size:.78rem;font-weight:600">🗑 Remover</button>
       </div>`
     :'<span style="font-size:.78rem;color:#9ca3af">Nenhuma logo definida</span>';
 }
@@ -3214,7 +3251,7 @@ function renderFooter(){
   const contactEl=document.getElementById('footer-contact');
   if(contactEl){
     const items=[];
-    if(wpp) items.push(`<a href="https://api.whatsapp.com/send/?phone=${wpp}&text=Ol%C3%A1%2C+gostaria+de+mais+informa%C3%A7%C3%B5es!" target="_blank" class="footer-link" style="color:#22c55e">📱 WhatsApp</a>`);
+    if(wpp) items.push(`<a href="https://api.whatsapp.com/send/?phone=${wpp}&text=Ol%C3%A1%2C+gostaria+de+mais+informa%C3%A7%C3%B5es!" target="_blank" class="footer-link" style="color:var(--green-bright)">📱 WhatsApp</a>`);
     if(addr) items.push(`<span class="footer-link" style="align-items:flex-start;color:#d1d5db">📍 <span>${esc(addr)}</span></span>`);
     if(email) items.push(`<a href="mailto:${esc(email)}" class="footer-link">✉️ ${esc(email)}</a>`);
     if(insta){const h=insta.startsWith('@')?insta.slice(1):insta;items.push(`<a href="https://instagram.com/${h}" target="_blank" class="footer-link">📸 ${esc(insta)}</a>`);}
@@ -3237,7 +3274,7 @@ function loadConfigUI(){
   document.getElementById('cfg-low-stock').value=CONFIG.lowStockThreshold||5;
   document.getElementById('cfg-pix').value=CONFIG.pixDiscount||0;
   const w=document.getElementById('pwd-warn');
-  if(w) w.style.display=isUsingDefaultPwd()?'block':'none';
+  if(w) w.style.display='none'; // senha de admin agora é gerenciada pelo Supabase Auth
   loadStorageUsage();
 }
 
@@ -3257,7 +3294,7 @@ function loadStorageUsage(){
   const LIMIT_MB=5; // limite conservador
   const usedMB=total/1024/1024;
   const pct=Math.min(100, Math.round(usedMB/LIMIT_MB*100));
-  let color='#16a34a', warning='';
+  let color='var(--green)', warning='';
   if(pct>=80){ color='#dc2626'; warning='<div style="margin-top:.4rem;color:#dc2626;font-weight:600">⚠️ Quase no limite! Considere migrar para banco em nuvem (Supabase) ou limpar pedidos antigos.</div>'; }
   else if(pct>=50){ color='#f59e0b'; warning='<div style="margin-top:.4rem;color:#92400e">💡 Considere fazer backup CSV regularmente.</div>'; }
   // Top 3 chaves
@@ -3550,25 +3587,32 @@ function renderFeatProdList(){
 function removeFeatProd(id){HIGHLIGHTS.featProds=(HIGHLIGHTS.featProds||[]).filter(x=>x!==id);saveHL();renderFeatProdList();renderHighlightBanners();toast('Removido dos destaques','warn');}
 
 /* ─── CUSTOMER PANEL ─── */
-let myaPhoneKey=null;
-function myaCheckPhone(){
+let myaPhoneKey=null;     // telefone (só dígitos) do cliente logado
+let myaAccount=null;      // {name, address} do cliente logado
+let myaPass=null;         // senha em memória (para confirmar alterações na sessão)
+let myaOrders=[];         // pedidos do cliente, vindos do servidor no login
+let _myaPhoneExists=false;// se o telefone digitado já tem conta
+async function myaCheckPhone(){
   const ph=document.getElementById('mya-phone').value.replace(/\D/g,'');
   if(ph.length<10){toast('Digite um telefone válido','err');return;}
-  const accounts=ls('rdp2_accounts',{});
   const statusEl=document.getElementById('mya-phone-status');
   const nameWrap=document.getElementById('mya-name-wrap');
   const passWrap=document.getElementById('mya-pass-wrap');
   const addrWrap=document.getElementById('mya-addr-wrap');
   const loginBtn=document.getElementById('mya-login-btn');
-  if(accounts[ph]){
+  let exists=false;
+  try{ const {data,error}=await sb.rpc('customer_phone_exists',{p_phone:ph}); if(error)throw error; exists=!!data; }
+  catch(e){ console.warn('Não consegui verificar o telefone:',e.message); }
+  _myaPhoneExists=exists;
+  if(exists){
     statusEl.style.cssText='display:block;margin-top:.6rem;padding:.5rem .75rem;border-radius:.5rem;font-size:.82rem;font-weight:600;background:#f0fdf4;border:1px solid #86efac;color:#15803d';
-    statusEl.textContent=`Bem-vindo(a) de volta, ${accounts[ph].name.split(' ')[0]}!`;
+    statusEl.textContent='Você já tem conta — digite sua senha para entrar.';
     nameWrap.style.display='none';
     addrWrap.style.display='none';
     document.getElementById('mya-pass').setAttribute('autocomplete','current-password');
     setTimeout(()=>document.getElementById('mya-pass').focus(),50);
   } else {
-    statusEl.style.cssText='display:block;margin-top:.6rem;padding:.5rem .75rem;border-radius:.5rem;font-size:.82rem;font-weight:600;background:#fefce8;border:1px solid #fde047;color:#92400e';
+    statusEl.style.cssText='display:block;margin-top:.6rem;padding:.5rem .75rem;border-radius:.5rem;font-size:.82rem;font-weight:600;background:#fefce8;border:1px solid var(--yellow);color:#92400e';
     statusEl.textContent='Primeiro acesso — você está criando sua conta.';
     nameWrap.style.display='block';
     addrWrap.style.display='block';
@@ -3578,22 +3622,26 @@ function myaCheckPhone(){
   passWrap.style.display='block';
   loginBtn.style.display='block';
 }
-function myaLogin(){
+async function myaLogin(){
   const ph=document.getElementById('mya-phone').value.replace(/\D/g,'');
   if(ph.length<10){toast('Digite um telefone válido','err');return;}
   const passWrap=document.getElementById('mya-pass-wrap');
   if(passWrap.style.display==='none'||passWrap.style.display===''){myaCheckPhone();return;}
   const pw=document.getElementById('mya-pass').value;
   if(!pw||pw.length<4){toast('A senha deve ter pelo menos 4 caracteres','err');return;}
-  const accounts=ls('rdp2_accounts',{});
   let displayName;
-  if(accounts[ph]){
-    if(accounts[ph].password!==pw){toast('Senha incorreta','err');return;}
-    displayName=accounts[ph].name;
+  if(_myaPhoneExists){
+    // Conta existente → login no servidor (confere a senha com hash)
+    const {data,error}=await sb.rpc('customer_login',{p_phone:ph,p_password:pw});
+    if(error){toast('Erro ao entrar. Tente de novo.','err');return;}
+    if(!data||!data.ok){toast(data&&data.error==='senha_incorreta'?'Senha incorreta':'Não foi possível entrar','err');return;}
+    myaAccount={name:data.name,address:data.address};
+    myaOrders=Array.isArray(data.orders)?data.orders:[];
+    displayName=data.name;
   } else {
+    // Primeiro acesso → cadastro
     const nm=document.getElementById('mya-name').value.trim();
     if(!nm){toast('Digite seu nome','err');return;}
-    // Coleta endereço do cadastro se preenchido
     const newAddr={
       cep:(document.getElementById('mya-cep')?.value||'').trim(),
       street:(document.getElementById('mya-street')?.value||'').trim(),
@@ -3603,13 +3651,15 @@ function myaLogin(){
       city:(document.getElementById('mya-city')?.value||'').trim()
     };
     const hasAddr=newAddr.street&&newAddr.num&&newAddr.neigh;
-    accounts[ph]={name:nm,password:pw};
-    if(hasAddr) accounts[ph].address=newAddr;
-    sv('rdp2_accounts',accounts);
+    const {data,error}=await sb.rpc('customer_register',{p_phone:ph,p_name:nm,p_password:pw,p_address:hasAddr?newAddr:null});
+    if(error){toast('Erro ao criar conta. Tente de novo.','err');return;}
+    if(!data||!data.ok){toast(data&&data.error==='ja_existe'?'Conta já existe — digite a senha':'Não foi possível cadastrar','err');return;}
+    myaAccount={name:nm,address:hasAddr?newAddr:null};
+    myaOrders=[];
     displayName=nm;
   }
   myaPhoneKey=ph;
-  ORDERS=ls(K.orders,[]);
+  myaPass=pw;
   document.getElementById('mya-login-box').style.display='none';
   document.getElementById('mya-panel').style.display='block';
   document.getElementById('mya-phone-lbl').textContent='📞 '+document.getElementById('mya-phone').value;
@@ -3617,7 +3667,7 @@ function myaLogin(){
   swMyaTab('orders');
 }
 function myaLogout(){
-  myaPhoneKey=null;
+  myaPhoneKey=null; myaAccount=null; myaPass=null; myaOrders=[]; _myaPhoneExists=false;
   document.getElementById('mya-login-box').style.display='block';
   document.getElementById('mya-panel').style.display='none';
   document.getElementById('mya-phone').value='';
@@ -3632,9 +3682,8 @@ function myaLogout(){
   });
 }
 function getMyOrders(phone){
-  // Always pull fresh from storage
-  const all=ls(K.orders,[]);
-  return all.filter(o=>o.phone&&o.phone.replace(/\D/g,'')===phone);
+  // Pedidos vêm do servidor no login (myaOrders), não do cache local
+  return myaOrders||[];
 }
 function swMyaTab(tab){
   document.getElementById('mya-orders-tab').style.display=tab==='orders'?'block':'none';
@@ -3653,9 +3702,7 @@ function swMyaTab(tab){
 function renderMyAddress(){
   const el=document.getElementById('mya-addr-content');
   if(!myaPhoneKey||!el) return;
-  const accounts=ls('rdp2_accounts',{});
-  const acc=accounts[myaPhoneKey]||{};
-  const a=acc.address||{};
+  const a=(myaAccount&&myaAccount.address)||{};
   el.innerHTML=`
     <div style="padding:.25rem 0 .75rem;font-size:.82rem;color:#6b7280">Salve seu endereço para preenchimento automático nas próximas compras.</div>
     <div class="fg" style="margin-bottom:.6rem;display:grid;grid-template-columns:140px 1fr;gap:.5rem;align-items:end">
@@ -3691,7 +3738,7 @@ function renderMyAddress(){
     </div>
     <button class="submit-btn" style="width:100%" onclick="saveMyAddress()">💾 Salvar Endereço</button>`;
 }
-function saveMyAddress(){
+async function saveMyAddress(){
   if(!myaPhoneKey) return;
   const addr={
     cep:(document.getElementById('mya-edit-cep')?.value||'').trim(),
@@ -3702,10 +3749,9 @@ function saveMyAddress(){
     city:(document.getElementById('mya-edit-city')?.value||'').trim()
   };
   if(!addr.street||!addr.num||!addr.neigh){toast('Preencha pelo menos rua, número e bairro','err');return;}
-  const accounts=ls('rdp2_accounts',{});
-  if(!accounts[myaPhoneKey]) return;
-  accounts[myaPhoneKey].address=addr;
-  sv('rdp2_accounts',accounts);
+  const {data,error}=await sb.rpc('customer_update',{p_phone:myaPhoneKey,p_password:myaPass,p_address:addr});
+  if(error||!data||!data.ok){toast('Erro ao salvar endereço','err');return;}
+  if(myaAccount) myaAccount.address=addr;
   toast('Endereço salvo com sucesso!','');
 }
 /* ─── CHECKOUT: ENDEREÇO SALVO ─── */
@@ -3713,8 +3759,7 @@ function checkSavedAddrForCheckout(){
   const banner=document.getElementById('saved-addr-banner');
   if(!banner||delivType!=='delivery') return;
   if(!myaPhoneKey){banner.style.display='none';return;}
-  const accounts=ls('rdp2_accounts',{});
-  const acc=accounts[myaPhoneKey];
+  const acc=myaAccount;
   if(!acc||!acc.address||!acc.address.street){banner.style.display='none';return;}
   const a=acc.address;
   const parts=[a.street+(a.num?', '+a.num:''),a.comp,a.neigh,a.city,a.cep].filter(Boolean);
@@ -3723,8 +3768,7 @@ function checkSavedAddrForCheckout(){
 }
 function useSavedAddress(){
   if(!myaPhoneKey) return;
-  const accounts=ls('rdp2_accounts',{});
-  const acc=accounts[myaPhoneKey];
+  const acc=myaAccount;
   if(!acc||!acc.address) return;
   const a=acc.address;
   const set=(id,val)=>{const el=document.getElementById(id);if(el)el.value=val||'';};
@@ -3805,18 +3849,16 @@ function showForgotPassword(){
   const wrap=document.getElementById('mya-reset-wrap');
   if(wrap){wrap.style.display='block';document.getElementById('mya-reset-phone')?.focus();}
 }
-function doResetPassword(){
+async function doResetPassword(){
   const ph=(document.getElementById('mya-reset-phone')?.value||'').replace(/\D/g,'');
-  const nameInput=(document.getElementById('mya-reset-name')?.value||'').trim().toLowerCase();
+  const nameInput=(document.getElementById('mya-reset-name')?.value||'').trim();
   const pw=(document.getElementById('mya-reset-pass')?.value||'').trim();
   if(ph.length<10){toast('Digite um telefone válido','err');return;}
   if(!nameInput){toast('Digite o nome cadastrado','err');return;}
   if(!pw||pw.length<4){toast('A nova senha deve ter pelo menos 4 caracteres','err');return;}
-  const accounts=ls('rdp2_accounts',{});
-  const acc=accounts[ph];
-  if(!acc||acc.name.trim().toLowerCase()!==nameInput){toast('Telefone ou nome incorretos.','err');return;}
-  accounts[ph].password=pw;
-  sv('rdp2_accounts',accounts);
+  const {data,error}=await sb.rpc('customer_reset_password',{p_phone:ph,p_name:nameInput,p_new_password:pw});
+  if(error){toast('Erro ao redefinir senha','err');return;}
+  if(!data||!data.ok){toast('Telefone ou nome incorretos.','err');return;}
   document.getElementById('mya-reset-wrap').style.display='none';
   ['mya-reset-phone','mya-reset-name','mya-reset-pass'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value='';
@@ -3848,19 +3890,17 @@ function renderMySecurity(){
     </div>
     <button class="submit-btn" style="width:100%" onclick="changeMyPassword()">🔒 Trocar Senha</button>`;
 }
-function changeMyPassword(){
+async function changeMyPassword(){
   if(!myaPhoneKey) return;
   const cur=(document.getElementById('sec-pass-current')?.value||'');
   const nw=(document.getElementById('sec-pass-new')?.value||'').trim();
   const conf=(document.getElementById('sec-pass-confirm')?.value||'').trim();
-  const accounts=ls('rdp2_accounts',{});
-  const acc=accounts[myaPhoneKey];
-  if(!acc){toast('Conta não encontrada','err');return;}
-  if(acc.password!==cur){toast('Senha atual incorreta','err');return;}
   if(!nw||nw.length<4){toast('A nova senha deve ter pelo menos 4 caracteres','err');return;}
   if(nw!==conf){toast('As senhas não coincidem','err');return;}
-  accounts[myaPhoneKey].password=nw;
-  sv('rdp2_accounts',accounts);
+  const {data,error}=await sb.rpc('customer_update',{p_phone:myaPhoneKey,p_password:cur,p_new_password:nw});
+  if(error){toast('Erro ao trocar senha','err');return;}
+  if(!data||!data.ok){toast(data&&data.error==='senha_incorreta'?'Senha atual incorreta':'Não foi possível trocar','err');return;}
+  myaPass=nw;
   ['sec-pass-current','sec-pass-new','sec-pass-confirm'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value='';
   });
@@ -3911,7 +3951,7 @@ function renderMyOrders(){
           <div class="mya-order-id">Pedido #${esc(String(o.id).slice(-6))} ${statusBadge(o.status||'pendente')}</div>
           <div class="mya-order-date">📅 ${esc(o.date)}</div>
         </div>
-        <div style="background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;border-radius:.35rem;padding:.3rem .75rem;font-weight:800;font-size:.9rem">
+        <div style="background:#f0fdf4;color:var(--green);border:1px solid #bbf7d0;border-radius:.35rem;padding:.3rem .75rem;font-weight:800;font-size:.9rem">
           R$${(o.total||0).toFixed(2).replace('.',',')}
         </div>
       </div>
@@ -3925,12 +3965,12 @@ function renderMyOrders(){
       </div>
       ${o.address?`<div style="font-size:.78rem;color:#6b7280;margin-top:.2rem">📍 ${esc(o.address)}</div>`:''}
       ${o.notes?`<div style="font-size:.78rem;color:#f59e0b;background:#fffbeb;padding:.3rem .5rem;border-radius:.35rem;margin-top:.3rem">📝 ${esc(o.notes)}</div>`:''}
-      <button onclick="event.stopPropagation();repeatOrder(${o.id})" style="margin-top:.6rem;background:linear-gradient(to right,#22c55e,#eab308);color:#fff;border:none;border-radius:.375rem;padding:.35rem .9rem;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit">🔁 Repetir Pedido</button>
+      <button onclick="event.stopPropagation();repeatOrder(${o.id})" style="margin-top:.6rem;background:linear-gradient(to right,var(--green-bright),#eab308);color:#fff;border:none;border-radius:.375rem;padding:.35rem .9rem;font-weight:700;font-size:.78rem;cursor:pointer;font-family:inherit">🔁 Repetir Pedido</button>
     </div>`).join('');
   el.innerHTML=countBadge+rows;
 }
 function repeatOrder(orderId){
-  const order=ls(K.orders,[]).find(o=>o.id===orderId);
+  const order=(myaOrders||[]).find(o=>o.id===orderId);
   if(!order){toast('Pedido não encontrado','err');return;}
   const parts=(order.items||'').split(', ');
   let added=0,missing=[];
@@ -4000,7 +4040,7 @@ function renderCustomers(){
   const el=document.getElementById('customers-list');
   const srch=(document.getElementById('cust-search')?.value||'').toLowerCase();
   const sort=document.getElementById('cust-sort')?.value||'orders';
-  const accounts=ls('rdp2_accounts',{});
+  const accounts=ADMIN_ACCOUNTS;
   let custs=buildCustomers();
   // Enriquecer com dados de conta cadastrada
   custs.forEach(c=>{const ph=c.phone.replace(/\D/g,'');if(accounts[ph])c._acc=accounts[ph];});
@@ -4026,11 +4066,11 @@ function renderCustomers(){
       <div style="font-weight:700;font-size:.78rem;color:#0369a1;margin-bottom:.35rem">🔑 Dados do Cadastro</div>
       <div style="font-size:.8rem;color:#374151;margin-bottom:.15rem">👤 Nome: <strong>${esc(acc.name)}</strong></div>
       <div style="font-size:.8rem;color:#374151;margin-bottom:.15rem">📞 Telefone: <strong>${esc(c.phone)}</strong></div>
-      <div style="font-size:.8rem;color:#374151;margin-bottom:.15rem">🔒 Senha: <strong>${esc(acc.password)}</strong></div>
+      <div style="font-size:.8rem;color:#374151;margin-bottom:.15rem">🔒 Senha: <strong>•••••• (protegida)</strong></div>
       ${addrLine?`<div style="font-size:.8rem;color:#374151;margin-bottom:.4rem">🏠 Endereço: <strong>${esc(addrLine)}</strong></div>`:'<div style="font-size:.78rem;color:#9ca3af;margin-bottom:.4rem">🏠 Sem endereço salvo</div>'}
       <div style="display:flex;gap:.4rem">
         <button onclick="editCustomerAccount('${phoneRaw}',event)" style="background:#dbeafe;color:#1e40af;border:none;border-radius:.3rem;padding:.25rem .65rem;font-weight:600;font-size:.75rem;cursor:pointer">✏️ Editar</button>
-        <button onclick="deleteCustomerAccount('${phoneRaw}',event)" style="background:#fee2e2;color:#ef4444;border:none;border-radius:.3rem;padding:.25rem .65rem;font-weight:600;font-size:.75rem;cursor:pointer">🗑 Excluir</button>
+        <button onclick="deleteCustomerAccount('${phoneRaw}',event)" style="background:#fee2e2;color:var(--danger);border:none;border-radius:.3rem;padding:.25rem .65rem;font-weight:600;font-size:.75rem;cursor:pointer">🗑 Excluir</button>
       </div>
     </div>`:'';
     return`<div class="cust-row" onclick="toggleCustDetail('cd-${i}')">
@@ -4041,14 +4081,14 @@ function renderCustomers(){
           ${addrs.length?`<div class="cust-contact" style="margin-top:.15rem">📍 ${esc(addrs[addrs.length-1])}</div>`:''}
         </div>
         <div class="cust-stats">
-          <span class="cust-stat" style="color:#16a34a">${c.orders.length} pedido(s)</span>
+          <span class="cust-stat" style="color:var(--green)">${c.orders.length} pedido(s)</span>
           <span class="cust-stat" style="color:#ea580c">R$${c.totalSpent.toFixed(2).replace('.',',')}</span>
         </div>
       </div>
       <div class="cust-detail" id="cd-${i}">
         ${accInfo}
         <div style="font-weight:700;font-size:.82rem;margin-bottom:.5rem;color:#374151">Itens mais comprados:</div>
-        ${topItems.length?topItems.map(([nm,qty])=>`<div class="cust-item-row"><span>${esc(nm)}</span><span style="font-weight:700;color:#16a34a">${qty}x</span></div>`).join(''):'<div style="font-size:.8rem;color:#9ca3af">Sem dados de itens</div>'}
+        ${topItems.length?topItems.map(([nm,qty])=>`<div class="cust-item-row"><span>${esc(nm)}</span><span style="font-weight:700;color:var(--green)">${qty}x</span></div>`).join(''):'<div style="font-size:.8rem;color:#9ca3af">Sem dados de itens</div>'}
         ${addrs.length>1?`<div style="margin-top:.6rem;font-weight:700;font-size:.82rem;color:#374151">Endereços usados:</div>${addrs.map(a=>`<div style="font-size:.78rem;color:#6b7280;padding:.2rem 0">📍 ${esc(a)}</div>`).join('')}`:''}
       </div>
     </div>`;
@@ -4058,19 +4098,18 @@ function toggleCustDetail(id){
   const el=document.getElementById(id);
   if(el)el.classList.toggle('open');
 }
-function deleteCustomerAccount(ph,e){
+async function deleteCustomerAccount(ph,e){
   e.stopPropagation();
   if(!confirm('Excluir a conta deste cliente?')) return;
-  const accounts=ls('rdp2_accounts',{});
-  delete accounts[ph];
-  sv('rdp2_accounts',accounts);
+  const {error}=await sb.from('accounts').delete().eq('phone',ph);
+  if(error){toast('Erro ao excluir','err');return;}
+  delete ADMIN_ACCOUNTS[ph];
   renderCustomers();
   toast('Conta excluída','warn');
 }
 function editCustomerAccount(ph,e){
   e.stopPropagation();
-  const accounts=ls('rdp2_accounts',{});
-  const acc=accounts[ph];
+  const acc=ADMIN_ACCOUNTS[ph];
   if(!acc) return;
   const box=document.getElementById('accinfo-'+ph);
   if(!box) return;
@@ -4081,10 +4120,6 @@ function editCustomerAccount(ph,e){
     <div style="margin-bottom:.4rem">
       <label style="font-size:.75rem;font-weight:600;color:#374151;display:block;margin-bottom:.15rem">Nome</label>
       <input id="edit-acc-name-${ph}" type="text" value="${esc(acc.name)}" style="${fi}"/>
-    </div>
-    <div style="margin-bottom:.6rem">
-      <label style="font-size:.75rem;font-weight:600;color:#374151;display:block;margin-bottom:.15rem">Senha</label>
-      <input id="edit-acc-pass-${ph}" type="text" value="${esc(acc.password)}" style="${fi}"/>
     </div>
     <div style="font-size:.75rem;font-weight:700;color:#0369a1;margin-bottom:.35rem">🏠 Endereço</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:.3rem;margin-bottom:.3rem">
@@ -4098,18 +4133,14 @@ function editCustomerAccount(ph,e){
     </div>
     <div style="margin-bottom:.5rem"><label style="font-size:.72rem;color:#6b7280;display:block;margin-bottom:.1rem">Bairro</label><input id="edit-acc-neigh-${ph}" type="text" value="${esc(a.neigh||'')}" placeholder="Bairro" style="${fi}"/></div>
     <div style="display:flex;gap:.4rem;margin-top:.25rem">
-      <button onclick="saveCustomerAccount('${ph}',event)" style="background:#16a34a;color:#fff;border:none;border-radius:.3rem;padding:.3rem .8rem;font-weight:700;font-size:.78rem;cursor:pointer">Salvar</button>
+      <button onclick="saveCustomerAccount('${ph}',event)" style="background:var(--green);color:#fff;border:none;border-radius:.3rem;padding:.3rem .8rem;font-weight:700;font-size:.78rem;cursor:pointer">Salvar</button>
       <button onclick="event.stopPropagation();renderCustomers()" style="background:#e5e7eb;color:#374151;border:none;border-radius:.3rem;padding:.3rem .8rem;font-weight:600;font-size:.78rem;cursor:pointer">Cancelar</button>
     </div>`;
 }
-function saveCustomerAccount(ph,e){
+async function saveCustomerAccount(ph,e){
   e.stopPropagation();
   const nm=(document.getElementById('edit-acc-name-'+ph)?.value||'').trim();
-  const pw=(document.getElementById('edit-acc-pass-'+ph)?.value||'').trim();
   if(!nm){toast('Nome não pode estar vazio','err');return;}
-  if(!pw||pw.length<4){toast('Senha deve ter pelo menos 4 caracteres','err');return;}
-  const accounts=ls('rdp2_accounts',{});
-  if(!accounts[ph]) return;
   const addr={
     cep:(document.getElementById('edit-acc-cep-'+ph)?.value||'').trim(),
     street:(document.getElementById('edit-acc-street-'+ph)?.value||'').trim(),
@@ -4118,11 +4149,12 @@ function saveCustomerAccount(ph,e){
     neigh:(document.getElementById('edit-acc-neigh-'+ph)?.value||'').trim(),
     city:(document.getElementById('edit-acc-city-'+ph)?.value||'').trim()
   };
-  accounts[ph]={name:nm,password:pw};
-  if(addr.street||addr.cep) accounts[ph].address=addr;
-  sv('rdp2_accounts',accounts);
+  const hasAddr=addr.street||addr.cep;
+  const {error}=await sb.from('accounts').update({name:nm,address:hasAddr?addr:null}).eq('phone',ph);
+  if(error){toast('Erro ao salvar cadastro','err');return;}
+  ADMIN_ACCOUNTS[ph]={...(ADMIN_ACCOUNTS[ph]||{}),name:nm,address:hasAddr?addr:null};
   renderCustomers();
-  toast('Cadastro atualizado!');
+  toast('Cadastro atualizado! (a senha do cliente não é alterada aqui)');
 }
 
 function cartQty(id, delta){
@@ -4146,7 +4178,7 @@ function goTo(pg){
   if(pg==='shop'){distOverride=null;updateBadge();renderCats();filterProds();renderHighlightBanners();}
   if(pg==='checkout'){activeCoupon=null;document.getElementById('coup-inp').value='';document.getElementById('coup-ok').style.display='none';document.getElementById('coup-err').style.display='none';updateSummary();applyDelivUI();}
   if(pg==='admin'){document.getElementById('adm-login').style.display='flex';document.getElementById('adm-dash').style.display='none';}
-  if(pg==='myaccount'){ORDERS=ls(K.orders,[]);} // refresh orders from storage
+  // (a área do cliente usa myaOrders, carregados do servidor no login)
 }
 
 function handleHash(){

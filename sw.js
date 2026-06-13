@@ -2,7 +2,7 @@
    Estratégia: network-first para conteúdo do próprio site (sempre pega a versão
    mais nova quando online; usa cache só como reserva offline).
    NUNCA intercepta Supabase nem Google Analytics — esses sempre vão direto à rede. */
-const CACHE = 'rdp-v1';
+const CACHE = 'rdp-v2';
 const SHELL = [
   '/',
   '/index.html',
