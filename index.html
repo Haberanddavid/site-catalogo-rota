@@ -596,7 +596,14 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
     <!-- Highlights/Promo banners -->
     <div id="hl-banners"></div>
     <div class="cats-row" id="cats-row"></div>
-    <div class="sort-row">
+    <div class="sort-row" style="display:flex;gap:.5rem;flex-wrap:wrap">
+      <select id="price-sel" class="sort-sel" onchange="filterProds()" title="Filtrar por preço">
+        <option value="">Preço: Todos</option>
+        <option value="0-25">Até R$ 25</option>
+        <option value="25-50">R$ 25 a 50</option>
+        <option value="50-100">R$ 50 a 100</option>
+        <option value="100-">Acima de R$ 100</option>
+      </select>
       <select id="sort-sel" class="sort-sel" onchange="filterProds()" title="Ordenar produtos">
         <option value="">Ordenar: Relevância</option>
         <option value="price-asc">Menor preço</option>
@@ -1117,11 +1124,19 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
             </div>
             <div class="af" style="background:#f0fdf4;border:1px dashed var(--green);border-radius:.5rem;padding:.7rem .75rem">
               <label style="display:flex;align-items:center;gap:.35rem">📑 Importar planilha (CSV/Excel) <span style="color:#9ca3af;font-weight:400;font-size:.74rem">— vários produtos de uma vez</span></label>
+              <select class="ai" id="pf-bulk-mode" style="margin-top:.3rem">
+                <option value="create">Criar novos produtos (nome, preço, categoria)</option>
+                <option value="update">Atualizar preço e estoque dos existentes</option>
+              </select>
               <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.3rem">
                 <input type="file" class="ai" id="pf-bulk-file" accept=".xlsx,.xls,.csv" style="flex:2;min-width:160px;padding:.4rem"/>
                 <button type="button" class="abtn" id="pf-bulk-btn" style="flex:1;min-width:110px;background:var(--green);color:#fff" onclick="bulkImportPreview()">Pré-visualizar</button>
               </div>
-              <div style="color:#6b7280;font-weight:400;font-size:.74rem;margin-top:.35rem">Lê as colunas <b>Produto</b>, <b>Valor de Venda Unitário</b> e <b>SubGrupo</b> (vira a categoria).</div>
+              <div style="color:#6b7280;font-weight:400;font-size:.74rem;margin-top:.35rem">Colunas usadas: <b>Produto</b>, <b>Valor de Venda Unitário</b>, <b>SubGrupo</b> (categoria) e <b>Quantidade</b> (estoque, no modo atualizar).</div>
+              <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.5rem;align-items:center">
+                <button type="button" class="abtn out" style="min-width:130px" onclick="exportProducts()">⬇️ Exportar produtos (Excel)</button>
+                <span style="color:#6b7280;font-weight:400;font-size:.74rem">Baixa todos os produtos; pode editar e reimportar.</span>
+              </div>
             </div>
             <div class="af"><label>Nome <span class="req">*</span></label><input type="text" class="ai" id="pf-name" placeholder="Ex: Premier 2,5kg"/></div>
             <div class="af"><label>Descrição</label><textarea class="ai" id="pf-desc" placeholder="Descrição"></textarea></div>
@@ -1986,6 +2001,8 @@ function filterProds(){
   let list=PRODS.filter(p=>p.isActive!==false);
   if(selCat)list=list.filter(p=>p.catId===selCat);
   if(term) list=list.filter(p=>p.name.toLowerCase().includes(term)||(p.description||'').toLowerCase().includes(term));
+  const pr=document.getElementById('price-sel')?.value||'';
+  if(pr){const[mn,mx]=pr.split('-');const lo=parseFloat(mn)||0,hi=mx?parseFloat(mx):Infinity;list=list.filter(p=>p.price>=lo&&p.price<=hi);}
   const sort=document.getElementById('sort-sel')?.value||'';
   if(sort==='price-asc') list=list.slice().sort((a,b)=>a.price-b.price);
   else if(sort==='price-desc') list=list.slice().sort((a,b)=>b.price-a.price);
@@ -2035,9 +2052,9 @@ function renderProds(list){
           ${p.stock>0?`<span class="pcard-stock">• ${p.stock} un.</span>`:'<span class="badge badge-red">⛔ Esgotado</span>'}
         </div>
         ${pixPct()>0?`<div class="pix-line">💠 R$ ${pixPrice(p.price).toFixed(2).replace('.',',')} no PIX (${pixPct()}% off)</div>`:''}
-        <button class="add-btn" id="ab-${p.id}" onclick="event.stopPropagation();addCart(${p.id})" ${p.stock<=0?'disabled':''}>
-          ${p.stock>0?'🛒 Adicionar ao Carrinho':'⛔ Produto Esgotado'}
-        </button>
+        ${p.stock>0
+          ?`<button class="add-btn" id="ab-${p.id}" onclick="event.stopPropagation();addCart(${p.id})">🛒 Adicionar ao Carrinho</button>`
+          :`<button class="add-btn" style="background:#25d366" onclick="event.stopPropagation();notifyRestock(${p.id})" title="Avisar a loja pelo WhatsApp">🔔 Avise-me quando chegar</button>`}
       </div>
     </div>`;
   }).join('');
@@ -2050,6 +2067,13 @@ function addCart(id){
   const btn=document.getElementById('ab-'+id);
   if(btn){btn.classList.add('flash');const orig=btn.textContent;btn.textContent='✓ Adicionado!';setTimeout(()=>{btn.textContent=orig;btn.classList.remove('flash');},1100);}
   toast(`${p.name} adicionado ao carrinho!`);
+}
+function notifyRestock(id){
+  const p=PRODS.find(x=>x.id===id);if(!p)return;
+  const wpp=CONFIG.wpp||'5516990983563';
+  const msg=`Olá! Gostaria de ser avisado quando *${p.name}* voltar ao estoque. 🐾`;
+  window.open(`https://api.whatsapp.com/send/?phone=${wpp}&text=${encodeURIComponent(msg)}`,'_blank');
+  toast('Abrindo WhatsApp para avisar a loja…');
 }
 
 /* ─── CHECKOUT ─── */
@@ -2638,6 +2662,7 @@ function renderOverview(){
   const outOfStock    = PRODS.filter(p=>p.stock<=0).length;
   const lowStock      = PRODS.filter(p=>p.stock>0&&p.stock<(CONFIG.lowStockThreshold||5)).length;
   const totalStock    = PRODS.reduce((s,p)=>s+p.stock,0);
+  const catalogValue  = PRODS.reduce((s,p)=>s+(p.price||0)*(p.stock||0),0);
   const activeCoupons = COUPONS.filter(c=>c.active).length;
   const totalOrders   = ORDERS.length;
   const rev           = ORDERS.reduce((s,o)=>s+(o.total||0),0);
@@ -2659,6 +2684,7 @@ function renderOverview(){
     {val: outOfStock,                        lbl: 'Sem Estoque',       cls: 'sv-r', icon: '❌'},
     {val: lowStock,                          lbl: 'Estoque Baixo',     cls: 'sv-o', icon: '⚠️'},
     {val: totalStock,                        lbl: 'Total em Estoque',  cls: 'sv-g', icon: '🗄️'},
+    {val: `R$${catalogValue.toFixed(2).replace('.',',')}`, lbl: 'Valor do Catálogo', cls: 'sv-b', icon: '🏷️', small:true},
     {val: activeCoupons,                     lbl: 'Cupons Ativos',     cls: 'sv-p', icon: '🎟'},
   ];
 
@@ -2895,11 +2921,13 @@ function _parsePrice(v){
   if(typeof v==='number')return v;
   return parseFloat(v.toString().replace(/\s/g,'').replace(',','.'));
 }
+function _parseStock(v){if(v==null||v==='')return NaN;const n=parseFloat(v.toString().replace(/\s/g,'').replace(',','.'));return isNaN(n)?NaN:Math.max(0,Math.floor(n));}
 function bulkImportPreview(){
   const fi=document.getElementById('pf-bulk-file');
   const file=fi&&fi.files&&fi.files[0];
   if(!file){toast('Escolha um arquivo .xlsx ou .csv','warn');return;}
   if(typeof XLSX==='undefined'){toast('Biblioteca de planilha não carregou. Verifique sua internet.','err');return;}
+  const mode=(document.getElementById('pf-bulk-mode')||{}).value||'create';
   const reader=new FileReader();
   reader.onload=e=>{
     let rows;
@@ -2908,8 +2936,8 @@ function bulkImportPreview(){
       const ws=wb.Sheets[wb.SheetNames[0]];
       rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
     }catch(err){console.error(err);toast('Não consegui ler o arquivo.','err');return;}
-    // localizar a linha de cabeçalho (contém "Produto")
-    let hIdx=-1,cName=-1,cPrice=-1,cSub=-1;
+    // localizar a linha de cabeçalho (contém "Produto") e mapear colunas pelos títulos
+    let hIdx=-1,cName=-1,cPrice=-1,cSub=-1,cStock=-1;
     for(let i=0;i<rows.length;i++){
       const r=rows[i];if(!Array.isArray(r))continue;
       const cn=r.findIndex(c=>_norm(c)==='produto');
@@ -2917,11 +2945,12 @@ function bulkImportPreview(){
         hIdx=i;cName=cn;
         cPrice=r.findIndex(c=>_norm(c)==='valor de venda unitario');
         cSub=r.findIndex(c=>_norm(c)==='subgrupo');
+        cStock=r.findIndex(c=>_norm(c)==='quantidade');
         break;
       }
     }
-    if(hIdx<0||cPrice<0||cSub<0){
-      toast('Não achei as colunas. A planilha precisa ter os títulos: Produto, Valor de Venda Unitário e SubGrupo.','err');
+    if(hIdx<0||cName<0||cPrice<0){
+      toast('Não achei as colunas. A planilha precisa ter ao menos: Produto e Valor de Venda Unitário.','err');
       return;
     }
     const items=[];
@@ -2929,48 +2958,67 @@ function bulkImportPreview(){
       const r=rows[i];if(!Array.isArray(r))continue;
       const name=(r[cName]==null?'':r[cName].toString()).trim();
       if(!name)continue; // linha vazia/subtotal
-      items.push({name,price:_parsePrice(r[cPrice]),catName:_cleanSub(r[cSub])||''});
+      items.push({name,price:_parsePrice(r[cPrice]),stock:cStock>=0?_parseStock(r[cStock]):NaN,catName:cSub>=0?(_cleanSub(r[cSub])||''):''});
     }
-    _bulkImport={items};
+    _bulkImport={items,mode};
     renderBulkImportModal();
   };
   reader.onerror=()=>toast('Erro ao ler o arquivo.','err');
   reader.readAsArrayBuffer(file);
 }
-function _bulkStatusBadge(s){return s==='new'?'<span style="color:#16a34a;font-weight:700">✅ Novo</span>':s==='dup'?'<span style="color:#d97706;font-weight:700">⏭️ Duplicado</span>':'<span style="color:#dc2626;font-weight:700">⚠️ Sem preço/nome</span>';}
+function _bulkStatusBadge(s){
+  return s==='new'?'<span style="color:#16a34a;font-weight:700">✅ Novo</span>'
+    :s==='dup'?'<span style="color:#d97706;font-weight:700">⏭️ Duplicado</span>'
+    :s==='upd'?'<span style="color:#2563eb;font-weight:700">🔄 Atualizar</span>'
+    :s==='miss'?'<span style="color:#9ca3af;font-weight:700">∅ Não encontrado</span>'
+    :'<span style="color:#dc2626;font-weight:700">⚠️ Sem preço/nome</span>';
+}
+function _pill(el,txt,bg,color,show){if(!el)return;el.style.display=show?'':'none';if(!show)return;el.textContent=txt;el.style.background=bg;el.style.color=color;}
 function renderBulkImportModal(){
   const d=_bulkImport;if(!d)return;
-  const trs=d.items.map((it,i)=>`<tr data-i="${i}" style="border-bottom:1px solid #f1f5f9">
-    <td style="padding:.3rem .4rem"><input class="bi" data-bi="name" value="${_escH(it.name)}" style="width:100%;min-width:150px"/></td>
-    <td style="padding:.3rem .4rem"><input class="bi" type="number" step="0.01" min="0" data-bi="price" value="${isNaN(it.price)?'':it.price.toFixed(2)}" placeholder="—" style="width:90px;text-align:right"/></td>
-    <td style="padding:.3rem .4rem"><input class="bi" data-bi="cat" list="bi-catlist" value="${_escH(it.catName)}" placeholder="(sem categoria)" style="width:100%;min-width:120px"/></td>
-    <td class="bi-status" style="padding:.3rem .4rem;white-space:nowrap"></td>
-  </tr>`).join('');
+  const upd=d.mode==='update';
   const catOpts=CATS.map(c=>`<option value="${_escH(c.name)}"></option>`).join('');
+  const headRow=upd
+    ?'<th style="padding:.45rem .5rem">Nome</th><th style="padding:.45rem .5rem">Preço</th><th style="padding:.45rem .5rem">Estoque</th><th style="padding:.45rem .5rem">Status</th>'
+    :'<th style="padding:.45rem .5rem">Nome</th><th style="padding:.45rem .5rem">Preço</th><th style="padding:.45rem .5rem">Categoria</th><th style="padding:.45rem .5rem">Status</th>';
+  const hint=upd
+    ?'Casa pelo <b>nome</b> e atualiza <b>preço</b> e <b>estoque</b>. Produtos não encontrados são ignorados.'
+    :'Você pode editar <b>nome</b>, <b>preço</b> e <b>categoria</b> de cada linha antes de importar.';
+  const trs=d.items.map((it,i)=>upd
+    ?`<tr data-i="${i}" data-name="${_escH(it.name)}" style="border-bottom:1px solid #f1f5f9">
+      <td style="padding:.3rem .4rem">${_escH(it.name)}</td>
+      <td style="padding:.3rem .4rem"><input class="bi" type="number" step="0.01" min="0" data-bi="price" value="${isNaN(it.price)?'':it.price.toFixed(2)}" placeholder="—" style="width:90px;text-align:right"/></td>
+      <td style="padding:.3rem .4rem"><input class="bi" type="number" min="0" data-bi="stock" value="${isNaN(it.stock)?'':it.stock}" placeholder="—" style="width:80px;text-align:right"/></td>
+      <td class="bi-status" style="padding:.3rem .4rem;white-space:nowrap"></td>
+    </tr>`
+    :`<tr data-i="${i}" style="border-bottom:1px solid #f1f5f9">
+      <td style="padding:.3rem .4rem"><input class="bi" data-bi="name" value="${_escH(it.name)}" style="width:100%;min-width:150px"/></td>
+      <td style="padding:.3rem .4rem"><input class="bi" type="number" step="0.01" min="0" data-bi="price" value="${isNaN(it.price)?'':it.price.toFixed(2)}" placeholder="—" style="width:90px;text-align:right"/></td>
+      <td style="padding:.3rem .4rem"><input class="bi" data-bi="cat" list="bi-catlist" value="${_escH(it.catName)}" placeholder="(sem categoria)" style="width:100%;min-width:120px"/></td>
+      <td class="bi-status" style="padding:.3rem .4rem;white-space:nowrap"></td>
+    </tr>`).join('');
   const html=`<div class="modal-overlay" id="bulk-import-modal">
     <div class="modal-box" style="max-width:820px">
       <button class="modal-close" onclick="closeBulkImport()">✕</button>
       <div class="modal-body">
-        <h2 style="color:var(--green);margin-bottom:.35rem">📑 Pré-visualizar importação</h2>
-        <div style="font-size:.8rem;color:#6b7280;margin-bottom:.5rem">Você pode editar <b>nome</b>, <b>preço</b> e <b>categoria</b> de cada linha antes de importar.</div>
+        <h2 style="color:var(--green);margin-bottom:.35rem">📑 ${upd?'Atualizar preço e estoque':'Pré-visualizar importação'}</h2>
+        <div style="font-size:.8rem;color:#6b7280;margin-bottom:.5rem">${hint}</div>
         <datalist id="bi-catlist">${catOpts}</datalist>
         <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
-          <span id="bi-sum-new" style="background:#dcfce7;color:#166534;font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem"></span>
-          <span id="bi-sum-dup" style="background:#fef3c7;color:#92400e;font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem"></span>
-          <span id="bi-sum-bad" style="background:#fee2e2;color:#991b1b;font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem"></span>
+          <span id="bi-s1" style="font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem"></span>
+          <span id="bi-s2" style="font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem"></span>
+          <span id="bi-s3" style="font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem"></span>
         </div>
         <div id="bi-newcats" style="margin:.4rem 0;font-size:.85rem;color:#374151"></div>
         <div style="max-height:46vh;overflow:auto;border:1px solid #e5e7eb;border-radius:.5rem;margin-bottom:1rem">
           <table style="width:100%;border-collapse:collapse;font-size:.85rem">
-            <thead><tr style="position:sticky;top:0;background:#f8fafc;text-align:left;z-index:1">
-              <th style="padding:.45rem .5rem">Nome</th><th style="padding:.45rem .5rem">Preço</th><th style="padding:.45rem .5rem">Categoria</th><th style="padding:.45rem .5rem">Status</th>
-            </tr></thead>
+            <thead><tr style="position:sticky;top:0;background:#f8fafc;text-align:left;z-index:1">${headRow}</tr></thead>
             <tbody id="bulk-import-tbody" oninput="bulkRecalc()">${trs||'<tr><td colspan="4" style="padding:.6rem;text-align:center;color:#6b7280">Nenhuma linha encontrada</td></tr>'}</tbody>
           </table>
         </div>
         <div style="display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap">
           <button class="abtn out" onclick="closeBulkImport()">Cancelar</button>
-          <button class="abtn" id="bi-confirm" style="background:var(--green);color:#fff" onclick="bulkImportConfirm()">Confirmar importação</button>
+          <button class="abtn" id="bi-confirm" style="background:var(--green);color:#fff" onclick="bulkImportConfirm()">Confirmar</button>
         </div>
       </div>
     </div>
@@ -2981,35 +3029,77 @@ function renderBulkImportModal(){
 }
 function bulkRecalc(){
   const modal=document.getElementById('bulk-import-modal');if(!modal)return;
-  const existNames=new Set(PRODS.map(p=>_norm(p.name)));
-  const seen=new Set();const newCats=new Map();
-  let nNew=0,nDup=0,nBad=0;
-  modal.querySelectorAll('#bulk-import-tbody tr[data-i]').forEach(tr=>{
-    const name=tr.querySelector('[data-bi=name]').value.trim();
-    const price=parseFloat(tr.querySelector('[data-bi=price]').value);
-    const cat=tr.querySelector('[data-bi=cat]').value.trim();
-    let status;
-    if(!name||isNaN(price)||price<=0){status='bad';nBad++;}
-    else if(existNames.has(_norm(name))||seen.has(_norm(name))){status='dup';nDup++;}
-    else{status='new';nNew++;seen.add(_norm(name));
-      const ex=CATS.find(c=>_norm(c.name)===_norm(cat));
-      if(!ex&&_norm(cat)){const k=_norm(cat);if(!newCats.has(k))newCats.set(k,_capCat(cat));}
-    }
-    tr.dataset.status=status;
-    tr.querySelector('.bi-status').innerHTML=_bulkStatusBadge(status);
-  });
-  modal.querySelector('#bi-sum-new').textContent='✅ '+nNew+' novos';
-  modal.querySelector('#bi-sum-dup').textContent='⏭️ '+nDup+' duplicados (pular)';
-  modal.querySelector('#bi-sum-bad').textContent='⚠️ '+nBad+' sem preço/nome';
-  const nc=[...newCats.values()];
-  modal.querySelector('#bi-newcats').innerHTML=nc.length?('<b>Categorias novas a criar ('+nc.length+'):</b> '+nc.map(_escH).join(', ')):'<span style="color:#6b7280">Nenhuma categoria nova.</span>';
-  const btn=modal.querySelector('#bi-confirm');
-  btn.disabled=!nNew;btn.textContent='Confirmar importação ('+nNew+')';
+  const upd=_bulkImport&&_bulkImport.mode==='update';
+  const rowsEl=modal.querySelectorAll('#bulk-import-tbody tr[data-i]');
+  const s1=modal.querySelector('#bi-s1'),s2=modal.querySelector('#bi-s2'),s3=modal.querySelector('#bi-s3'),ncEl=modal.querySelector('#bi-newcats'),btn=modal.querySelector('#bi-confirm');
+  if(upd){
+    const existMap=new Map();PRODS.forEach(p=>{const k=_norm(p.name);if(!existMap.has(k))existMap.set(k,p);});
+    let nUpd=0,nMiss=0;
+    rowsEl.forEach(tr=>{
+      const name=tr.dataset.name||'';
+      const price=parseFloat(tr.querySelector('[data-bi=price]').value);
+      const stock=tr.querySelector('[data-bi=stock]').value;
+      let status;
+      if(!existMap.has(_norm(name)))status='miss';
+      else if(isNaN(price)&&stock==='')status='miss'; // existe mas nada para atualizar
+      else status='upd';
+      if(status==='upd')nUpd++;else nMiss++;
+      tr.dataset.status=status;tr.querySelector('.bi-status').innerHTML=_bulkStatusBadge(status);
+    });
+    _pill(s1,'🔄 '+nUpd+' a atualizar','#dbeafe','#1e40af',true);
+    _pill(s2,'∅ '+nMiss+' não encontrados','#f3f4f6','#374151',true);
+    _pill(s3,'','','',false);
+    if(ncEl)ncEl.style.display='none';
+    btn.disabled=!nUpd;btn.textContent='Atualizar '+nUpd+' produto(s)';
+  }else{
+    const existNames=new Set(PRODS.map(p=>_norm(p.name)));
+    const seen=new Set();const newCats=new Map();
+    let nNew=0,nDup=0,nBad=0;
+    rowsEl.forEach(tr=>{
+      const name=tr.querySelector('[data-bi=name]').value.trim();
+      const price=parseFloat(tr.querySelector('[data-bi=price]').value);
+      const cat=tr.querySelector('[data-bi=cat]').value.trim();
+      let status;
+      if(!name||isNaN(price)||price<=0){status='bad';nBad++;}
+      else if(existNames.has(_norm(name))||seen.has(_norm(name))){status='dup';nDup++;}
+      else{status='new';nNew++;seen.add(_norm(name));
+        const ex=CATS.find(c=>_norm(c.name)===_norm(cat));
+        if(!ex&&_norm(cat)){const k=_norm(cat);if(!newCats.has(k))newCats.set(k,_capCat(cat));}
+      }
+      tr.dataset.status=status;tr.querySelector('.bi-status').innerHTML=_bulkStatusBadge(status);
+    });
+    _pill(s1,'✅ '+nNew+' novos','#dcfce7','#166534',true);
+    _pill(s2,'⏭️ '+nDup+' duplicados (pular)','#fef3c7','#92400e',true);
+    _pill(s3,'⚠️ '+nBad+' sem preço/nome','#fee2e2','#991b1b',true);
+    const nc=[...newCats.values()];
+    if(ncEl){ncEl.style.display='';ncEl.innerHTML=nc.length?('<b>Categorias novas a criar ('+nc.length+'):</b> '+nc.map(_escH).join(', ')):'<span style="color:#6b7280">Nenhuma categoria nova.</span>';}
+    btn.disabled=!nNew;btn.textContent='Confirmar importação ('+nNew+')';
+  }
 }
 function closeBulkImport(){const m=document.getElementById('bulk-import-modal');if(m)m.remove();}
 function bulkImportConfirm(){
   const modal=document.getElementById('bulk-import-modal');if(!modal)return;
   bulkRecalc();
+  // MODO ATUALIZAR: casa pelo nome e atualiza preço/estoque dos existentes
+  if(_bulkImport&&_bulkImport.mode==='update'){
+    const existMap=new Map();PRODS.forEach(p=>{const k=_norm(p.name);if(!existMap.has(k))existMap.set(k,p);});
+    let updated=0,miss=0;
+    modal.querySelectorAll('#bulk-import-tbody tr[data-i]').forEach(tr=>{
+      if(tr.dataset.status!=='upd'){if(tr.dataset.status==='miss')miss++;return;}
+      const p=existMap.get(_norm(tr.dataset.name||''));if(!p)return;
+      const pv=tr.querySelector('[data-bi=price]').value;
+      const stv=tr.querySelector('[data-bi=stock]').value;
+      if(pv!==''&&!isNaN(parseFloat(pv)))p.price=Math.max(0,parseFloat(pv));
+      if(stv!==''&&!isNaN(parseInt(stv)))p.stock=Math.max(0,parseInt(stv));
+      updated++;
+    });
+    sv(K.prods,PRODS);
+    renderProdList();filterProds();renderOverview();
+    closeBulkImport();const fi=document.getElementById('pf-bulk-file');if(fi)fi.value='';_bulkImport=null;
+    toast(`${updated} produto(s) atualizado(s)${miss?', '+miss+' não encontrado(s)':''}`);
+    return;
+  }
+  // MODO CRIAR
   const catId={};CATS.forEach(c=>catId[_norm(c.name)]=c.id);
   let created=0,skipped=0;
   modal.querySelectorAll('#bulk-import-tbody tr[data-i]').forEach(tr=>{
@@ -3030,6 +3120,26 @@ function bulkImportConfirm(){
   const fi=document.getElementById('pf-bulk-file');if(fi)fi.value='';
   _bulkImport=null;
   toast(`${created} produto(s) importado(s)${skipped?', '+skipped+' pulado(s)':''}`);
+}
+function exportProducts(){
+  if(typeof XLSX==='undefined'){toast('Biblioteca de planilha não carregou. Verifique sua internet.','err');return;}
+  if(!PRODS.length){toast('Nenhum produto para exportar','warn');return;}
+  const rows=PRODS.map(p=>{
+    const cat=CATS.find(c=>c.id===p.catId);
+    return {
+      'Produto':p.name,
+      'Valor de Venda Unitário':Number(p.price)||0,
+      'SubGrupo':cat?cat.name:'',
+      'Quantidade':Number(p.stock)||0,
+      'Preço Original':p.priceOrig||'',
+      'Ativo':p.isActive!==false?'SIM':'NAO'
+    };
+  });
+  const ws=XLSX.utils.json_to_sheet(rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'Produtos');
+  XLSX.writeFile(wb,`produtos-rota-do-pet-${new Date().toISOString().slice(0,10)}.xlsx`);
+  toast(`${rows.length} produto(s) exportado(s)!`);
 }
 
 /* Categories */
@@ -3586,10 +3696,14 @@ function openModal(prodId){
   document.getElementById('modal-stock-info').textContent =
     p.stock>0 ? `(máx. ${p.stock})` : '';
 
-  // Button
+  // Button — em estoque: adicionar; esgotado: avise-me pelo WhatsApp
   const btn = document.getElementById('modal-add-btn');
-  btn.disabled = p.stock <= 0;
-  btn.textContent = p.stock>0 ? '🛒 Adicionar ao Carrinho' : '⛔ Produto Esgotado';
+  btn.disabled = false;
+  if(p.stock>0){
+    btn.textContent='🛒 Adicionar ao Carrinho';btn.style.background='';btn.onclick=modalAddToCart;
+  }else{
+    btn.textContent='🔔 Avise-me quando chegar';btn.style.background='#25d366';btn.onclick=()=>notifyRestock(p.id);
+  }
 
   // Show modal
   const modal = document.getElementById('prod-modal');
