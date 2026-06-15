@@ -1115,6 +1115,14 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
               </div>
               <div id="pf-import-msg" style="display:none;margin-top:.45rem;font-size:.8rem;font-weight:600;padding:.4rem .55rem;border-radius:.4rem"></div>
             </div>
+            <div class="af" style="background:#f0fdf4;border:1px dashed var(--green);border-radius:.5rem;padding:.7rem .75rem">
+              <label style="display:flex;align-items:center;gap:.35rem">📑 Importar planilha (CSV/Excel) <span style="color:#9ca3af;font-weight:400;font-size:.74rem">— vários produtos de uma vez</span></label>
+              <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.3rem">
+                <input type="file" class="ai" id="pf-bulk-file" accept=".xlsx,.xls,.csv" style="flex:2;min-width:160px;padding:.4rem"/>
+                <button type="button" class="abtn" id="pf-bulk-btn" style="flex:1;min-width:110px;background:var(--green);color:#fff" onclick="bulkImportPreview()">Pré-visualizar</button>
+              </div>
+              <div style="color:#6b7280;font-weight:400;font-size:.74rem;margin-top:.35rem">Lê as colunas <b>Produto</b>, <b>Valor de Venda Unitário</b> e <b>SubGrupo</b> (vira a categoria).</div>
+            </div>
             <div class="af"><label>Nome <span class="req">*</span></label><input type="text" class="ai" id="pf-name" placeholder="Ex: Premier 2,5kg"/></div>
             <div class="af"><label>Descrição</label><textarea class="ai" id="pf-desc" placeholder="Descrição"></textarea></div>
             <div class="af"><label>Categoria <span class="req">*</span></label><select class="ai" id="pf-cat"></select></div>
@@ -1441,6 +1449,7 @@ hr.sep{border:none;border-top:1px solid #f3f4f6;margin:1.25rem 0}
      ============================================================ -->
 <!-- Biblioteca oficial do Supabase (login + banco com regras de segurança) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
 /* ─── DATA ─── */
 const DEMO_CATS = [
@@ -2737,7 +2746,7 @@ function renderBulk(){
     const sv2=SHIP.prodRules&&SHIP.prodRules[p.id]!==undefined?SHIP.prodRules[p.id]:(SHIP.catRules&&SHIP.catRules[p.catId]!==undefined?SHIP.catRules[p.catId]:SHIP.defaultVal||0);
     return`<tr data-id="${p.id}">
       <td><input type="checkbox" class="bsel bchk" data-id="${p.id}"/></td>
-      <td>${p.emoji||'🐾'} ${p.name}</td>
+      <td>${p.emoji||'🐾'} <input type="text" class="bi" data-f="name" value="${_escH(p.name)}" style="min-width:150px;width:100%" title="Nome do produto"/></td>
       <td>${cat?cat.name:'—'}</td>
       <td><input type="number" step="0.01" min="0" class="bi" data-f="price" value="${p.price.toFixed(2)}" style="width:85px"/></td>
       <td><input type="number" step="0.01" min="0" class="bi" data-f="priceOrig" value="${p.priceOrig?p.priceOrig.toFixed(2):''}" placeholder="—" style="width:85px" title="Deixe vazio para remover desconto"/></td>
@@ -2781,7 +2790,8 @@ function bulkDel(){
 function saveBulk(){
   document.querySelectorAll('#bulk-body tr').forEach(tr=>{
     const id=+tr.dataset.id,p=PRODS.find(x=>x.id===id);if(!p)return;
-    const pi=tr.querySelector('[data-f=price]'),poi=tr.querySelector('[data-f=priceOrig]'),si=tr.querySelector('[data-f=stock]'),shi=tr.querySelector('[data-f=ship]'),ai=tr.querySelector('[data-f=active]');
+    const ni=tr.querySelector('[data-f=name]'),pi=tr.querySelector('[data-f=price]'),poi=tr.querySelector('[data-f=priceOrig]'),si=tr.querySelector('[data-f=stock]'),shi=tr.querySelector('[data-f=ship]'),ai=tr.querySelector('[data-f=active]');
+    if(ni&&ni.value.trim())p.name=ni.value.trim();
     if(pi)p.price=Math.max(0,parseFloat(pi.value)||0);
     if(poi)p.priceOrig=poi.value?parseFloat(poi.value)||null:null;
     if(si)p.stock=Math.max(0,parseInt(si.value)||0);
@@ -2871,6 +2881,137 @@ function delProd(id){
   if(!confirm('Deletar produto?'))return;
   const i=PRODS.findIndex(p=>p.id===id);if(i>=0)PRODS.splice(i,1);
   sv(K.prods,PRODS);renderProdList();filterProds();renderOverview();toast('Produto deletado','warn');
+}
+
+/* Importação em massa por planilha (CSV/Excel) */
+let _bulkImport=null; // resultado da prévia aguardando confirmação
+const _DIAC=new RegExp('['+String.fromCharCode(0x300)+'-'+String.fromCharCode(0x36f)+']','g');
+const _norm=s=>(s==null?'':s.toString()).normalize('NFD').replace(_DIAC,'').toLowerCase().trim();
+const _escH=s=>(s==null?'':s.toString()).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function _cleanSub(s){return (s==null?'':s.toString()).trim().replace(/^\s*\d+\s*-\s*/,'').trim();} // remove prefixo "2 - "
+function _capCat(s){s=s.trim();return s?s.charAt(0).toUpperCase()+s.slice(1).toLowerCase():s;}
+function _parsePrice(v){
+  if(v==null)return NaN;
+  if(typeof v==='number')return v;
+  return parseFloat(v.toString().replace(/\s/g,'').replace(',','.'));
+}
+function bulkImportPreview(){
+  const fi=document.getElementById('pf-bulk-file');
+  const file=fi&&fi.files&&fi.files[0];
+  if(!file){toast('Escolha um arquivo .xlsx ou .csv','warn');return;}
+  if(typeof XLSX==='undefined'){toast('Biblioteca de planilha não carregou. Verifique sua internet.','err');return;}
+  const reader=new FileReader();
+  reader.onload=e=>{
+    let rows;
+    try{
+      const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      rows=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+    }catch(err){console.error(err);toast('Não consegui ler o arquivo.','err');return;}
+    // localizar a linha de cabeçalho (contém "Produto")
+    let hIdx=-1,cName=-1,cPrice=-1,cSub=-1;
+    for(let i=0;i<rows.length;i++){
+      const r=rows[i];if(!Array.isArray(r))continue;
+      const cn=r.findIndex(c=>_norm(c)==='produto');
+      if(cn>=0){
+        hIdx=i;cName=cn;
+        cPrice=r.findIndex(c=>_norm(c)==='valor de venda unitario');
+        cSub=r.findIndex(c=>_norm(c)==='subgrupo');
+        break;
+      }
+    }
+    if(hIdx<0||cPrice<0||cSub<0){
+      toast('Não achei as colunas. A planilha precisa ter os títulos: Produto, Valor de Venda Unitário e SubGrupo.','err');
+      return;
+    }
+    const existNames=new Set(PRODS.map(p=>_norm(p.name)));
+    const seen=new Set(); // evita duplicados dentro do próprio arquivo
+    const newCatSet=new Map(); // normKey -> nome exibido (nova categoria a criar)
+    const items=[];
+    let nNew=0,nDup=0,nBad=0;
+    for(let i=hIdx+1;i<rows.length;i++){
+      const r=rows[i];if(!Array.isArray(r))continue;
+      const name=(r[cName]==null?'':r[cName].toString()).trim();
+      const price=_parsePrice(r[cPrice]);
+      const subRaw=_cleanSub(r[cSub]);
+      if(!name)continue; // linha vazia/subtotal
+      let status,catName=subRaw||'Sem categoria';
+      if(isNaN(price)||price<=0){status='bad';nBad++;}
+      else if(existNames.has(_norm(name))||seen.has(_norm(name))){status='dup';nDup++;}
+      else{
+        status='new';nNew++;seen.add(_norm(name));
+        // categoria: existe? senão marcar para criar
+        const ex=CATS.find(c=>_norm(c.name)===_norm(catName));
+        if(!ex&&_norm(catName)){const k=_norm(catName);if(!newCatSet.has(k))newCatSet.set(k,_capCat(catName));}
+      }
+      items.push({name,price,catName,status});
+    }
+    _bulkImport={items,newCats:[...newCatSet.values()],nNew,nDup,nBad};
+    renderBulkImportModal();
+  };
+  reader.onerror=()=>toast('Erro ao ler o arquivo.','err');
+  reader.readAsArrayBuffer(file);
+}
+function renderBulkImportModal(){
+  const d=_bulkImport;if(!d)return;
+  const statusBadge=s=>s==='new'?'<span style="color:#16a34a;font-weight:700">✅ Novo</span>':s==='dup'?'<span style="color:#d97706;font-weight:700">⏭️ Duplicado</span>':'<span style="color:#dc2626;font-weight:700">⚠️ Sem preço</span>';
+  const trs=d.items.map(it=>`<tr style="border-bottom:1px solid #f1f5f9">
+    <td style="padding:.35rem .5rem">${_escH(it.name)}</td>
+    <td style="padding:.35rem .5rem;text-align:right">${isNaN(it.price)?'—':'R$ '+it.price.toFixed(2)}</td>
+    <td style="padding:.35rem .5rem">${_escH(it.catName)}</td>
+    <td style="padding:.35rem .5rem;white-space:nowrap">${statusBadge(it.status)}</td>
+  </tr>`).join('');
+  const catsLine=d.newCats.length?`<div style="margin:.4rem 0;font-size:.85rem"><b>Categorias novas a criar (${d.newCats.length}):</b> ${d.newCats.map(_escH).join(', ')}</div>`:'<div style="margin:.4rem 0;font-size:.85rem;color:#6b7280">Nenhuma categoria nova.</div>';
+  const html=`<div class="modal-overlay" id="bulk-import-modal">
+    <div class="modal-box" style="max-width:780px">
+      <button class="modal-close" onclick="closeBulkImport()">✕</button>
+      <div class="modal-body">
+        <h2 style="color:var(--green);margin-bottom:.5rem">📑 Pré-visualizar importação</h2>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem">
+          <span style="background:#dcfce7;color:#166534;font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem">✅ ${d.nNew} novos</span>
+          <span style="background:#fef3c7;color:#92400e;font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem">⏭️ ${d.nDup} duplicados (pular)</span>
+          <span style="background:#fee2e2;color:#991b1b;font-weight:700;padding:.25rem .6rem;border-radius:9999px;font-size:.85rem">⚠️ ${d.nBad} sem preço</span>
+        </div>
+        ${catsLine}
+        <div style="max-height:48vh;overflow:auto;border:1px solid #e5e7eb;border-radius:.5rem;margin-bottom:1rem">
+          <table style="width:100%;border-collapse:collapse;font-size:.85rem">
+            <thead><tr style="position:sticky;top:0;background:#f8fafc;text-align:left">
+              <th style="padding:.45rem .5rem">Nome</th><th style="padding:.45rem .5rem;text-align:right">Preço</th><th style="padding:.45rem .5rem">Categoria</th><th style="padding:.45rem .5rem">Status</th>
+            </tr></thead>
+            <tbody>${trs||'<tr><td colspan="4" style="padding:.6rem;text-align:center;color:#6b7280">Nenhuma linha encontrada</td></tr>'}</tbody>
+          </table>
+        </div>
+        <div style="display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap">
+          <button class="abtn out" onclick="closeBulkImport()">Cancelar</button>
+          <button class="abtn" style="background:var(--green);color:#fff" onclick="bulkImportConfirm()" ${d.nNew?'':'disabled'}>Confirmar importação (${d.nNew})</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  const wrap=document.createElement('div');wrap.innerHTML=html;
+  document.body.appendChild(wrap.firstElementChild);
+}
+function closeBulkImport(){const m=document.getElementById('bulk-import-modal');if(m)m.remove();}
+function bulkImportConfirm(){
+  const d=_bulkImport;if(!d){closeBulkImport();return;}
+  // cache de categorias por nome normalizado -> id (existentes + novas criadas)
+  const catId={};CATS.forEach(c=>catId[_norm(c.name)]=c.id);
+  let created=0;
+  d.items.forEach(it=>{
+    if(it.status!=='new')return;
+    let key=_norm(it.catName);
+    if(!key){key='sem categoria';if(catId[key]===undefined){const nc=Math.max(0,...CATS.map(c=>c.id))+1;CATS.push({id:nc,name:'Sem categoria',description:'',emoji:'📦'});catId[key]=nc;}}
+    else if(catId[key]===undefined){const nc=Math.max(0,...CATS.map(c=>c.id))+1;CATS.push({id:nc,name:_capCat(it.catName),description:'',emoji:'📦'});catId[key]=nc;}
+    const newId=Math.max(0,...PRODS.map(p=>p.id))+1;
+    PRODS.push({id:newId,catId:catId[key],name:it.name,description:'',price:it.price,priceOrig:null,stock:0,emoji:'🐾',image:'',images:[],isActive:true});
+    created++;
+  });
+  sv(K.cats,CATS);sv(K.prods,PRODS);
+  renderCatList();renderCats();popCatSelects();popCoupSelects();popShipSelects();renderProdList();filterProds();renderOverview();
+  closeBulkImport();
+  const fi=document.getElementById('pf-bulk-file');if(fi)fi.value='';
+  _bulkImport=null;
+  toast(`${created} produto(s) importado(s)${d.nDup?', '+d.nDup+' pulado(s)':''}`);
 }
 
 /* Categories */
